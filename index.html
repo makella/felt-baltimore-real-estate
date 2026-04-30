@@ -141,59 +141,52 @@
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ── Layer collapsible sections ── */
+        /* ── Layer section (collapsible) ── */
         .layer-section {
-            margin-bottom: 14px;
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
+            margin-bottom: 12px;
             background: var(--card);
             overflow: hidden;
         }
-        .layer-section-head {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 11px 12px;
+        .layer-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
             cursor: pointer;
             user-select: none;
-            gap: 10px;
+            transition: background 0.12s;
         }
-        .layer-section-head:hover { background: var(--card-hover); }
-        .layer-section-head-left {
-            display: flex; align-items: center; gap: 8px; min-width: 0;
-        }
-        .layer-section-dot {
-            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-            background: var(--accent);
-        }
-        .layer-section-name {
-            font-size: 13px; font-weight: 600; color: var(--text);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        .layer-section-header:hover { background: var(--card-hover); }
+        .layer-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .layer-section-count {
-            font-size: 11px; color: var(--text-muted); font-weight: 500;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
             font-variant-numeric: tabular-nums;
         }
-        .layer-section-chevron {
-            width: 14px; height: 14px; color: var(--text-muted);
-            transition: transform 0.18s ease;
-            flex-shrink: 0;
+        .layer-section-toggle {
+            color: var(--text-muted);
+            transition: transform 0.2s;
         }
-        .layer-section[data-collapsed="true"] .layer-section-chevron {
-            transform: rotate(-90deg);
-        }
-        .layer-section[data-collapsed="true"] .layer-section-body { display: none; }
-        .layer-section-body {
-            padding: 4px 12px 12px;
-            border-top: 1px solid var(--border);
-            animation: fadeIn 0.18s ease;
-        }
+        .layer-section.collapsed .layer-section-toggle { transform: rotate(-90deg); }
+        .layer-section.collapsed .layer-section-body { display: none; }
+        .layer-section-body { padding: 12px; border-top: 1px solid var(--border); }
 
-        /* ── Stat cards ── */
+        /* ── stat-cards ── */
         .stat-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-bottom: 16px;
-            margin-top: 10px;
         }
         .stat-card {
             padding: 12px;
@@ -224,7 +217,7 @@
             letter-spacing: 0.04em;
         }
 
-        /* ── Bar chart ── */
+        /* ── bar-chart ── */
         .bar-chart { display: flex; flex-direction: column; gap: 6px; }
         .bar-row {
             display: flex;
@@ -238,9 +231,11 @@
         }
         .bar-row:hover { background: var(--card-hover); }
         .bar-row.dimmed { opacity: 0.35; }
+        .bar-row.locked .bar-fill { box-shadow: inset 0 0 0 2px var(--accent); }
+        .bar-row.locked .bar-label { color: var(--text); font-weight: 600; }
         .bar-label {
             min-width: 80px;
-            max-width: 110px;
+            max-width: 100px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -268,7 +263,7 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* ── Histogram ── */
+        /* ── histogram ── */
         .histogram-wrap { position: relative; }
         .histogram {
             display: flex;
@@ -280,11 +275,11 @@
             flex: 1;
             border-radius: 2px 2px 0 0;
             cursor: pointer;
-            opacity: 0.75;
+            opacity: 0.7;
             transition: opacity 0.12s;
-            background: var(--accent);
         }
         .hist-bar:hover { opacity: 1; }
+        .hist-bar.locked { opacity: 1; box-shadow: inset 0 0 0 2px var(--accent); }
         .hist-labels {
             display: flex;
             justify-content: space-between;
@@ -314,47 +309,7 @@
         }
         .hist-filter-hint.visible { opacity: 1; }
 
-        /* ── Median by category (custom block) ── */
-        .median-cat { display: flex; flex-direction: column; gap: 6px; }
-        .median-cat-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 12px;
-            border-radius: var(--radius-sm);
-            padding: 2px 0;
-        }
-        .median-cat-label {
-            min-width: 80px;
-            max-width: 110px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        .median-cat-track {
-            flex: 1;
-            height: 6px;
-            background: var(--bg-secondary);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .median-cat-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .median-cat-value {
-            min-width: 56px;
-            text-align: right;
-            color: var(--text);
-            font-size: 11px;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* ── Attribute picker / select ── */
+        /* ── attribute-picker ── */
         .section-select {
             padding: 3px 22px 3px 8px;
             font: 500 11px/1.4 'Inter', sans-serif;
@@ -364,7 +319,7 @@
             border-radius: var(--radius-sm);
             appearance: none;
             cursor: pointer;
-            max-width: 55%;
+            max-width: 50%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -375,7 +330,7 @@
         }
         .section-select:focus { outline: none; border-color: var(--accent); }
 
-        /* ── Legend ── */
+        /* ── legend ── */
         .legend-section { margin-bottom: 12px; }
         .legend-section:last-child { margin-bottom: 0; }
         .legend-section-title {
@@ -403,13 +358,6 @@
             height: 12px;
             border-radius: 2px;
             flex-shrink: 0;
-            border: 1px solid var(--border);
-        }
-        .legend-line-swatch {
-            width: 14px;
-            height: 3px;
-            border-radius: 2px;
-            flex-shrink: 0;
         }
         .legend-label {
             font-size: 11px;
@@ -417,7 +365,23 @@
             white-space: nowrap;
         }
 
-        /* ── Detail panel ── */
+        /* ── layer-toggle ── */
+        .layer-toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .layer-toggle-item input[type="checkbox"] {
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        /* ── detail-panel ── */
         .detail-panel {
             background: var(--card);
             border: 1px solid var(--border);
@@ -434,34 +398,26 @@
             font-weight: 600;
             color: var(--text);
         }
-        .detail-rows { padding: 2px 0; max-height: 360px; overflow-y: auto; }
-        .detail-rows::-webkit-scrollbar { width: 5px; }
-        .detail-rows::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+        .detail-rows { padding: 2px 0; max-height: 320px; overflow-y: auto; }
+        .detail-rows::-webkit-scrollbar { width: 4px; }
+        .detail-rows::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
         .detail-row {
             display: flex;
             justify-content: space-between;
-            gap: 8px;
+            gap: 12px;
             padding: 7px 12px;
             font-size: 12px;
             border-bottom: 1px solid var(--border);
         }
         .detail-row:last-child { border-bottom: none; }
-        .detail-key {
-            color: var(--text-muted);
-            font-weight: 500;
-            flex-shrink: 0;
-            max-width: 45%;
-        }
+        .detail-key { color: var(--text-muted); font-weight: 500; flex-shrink: 0; }
         .detail-val {
             color: var(--text);
             font-weight: 600;
             font-variant-numeric: tabular-nums;
             text-align: right;
-            word-break: break-word;
-            min-width: 0;
+            overflow-wrap: anywhere;
         }
-        .detail-val a { color: var(--accent); text-decoration: none; }
-        .detail-val a:hover { text-decoration: underline; }
 
         @media (max-width: 768px) {
             .pane { top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-width: 100%; height: 60vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
@@ -497,18 +453,16 @@
     <div class="divider"></div>
     <div class="pane-scroll">
         <div class="content" id="content">
-            <!-- LISTINGS layer section -->
-            <div class="layer-section" id="listings-section" data-collapsed="false">
-                <div class="layer-section-head" data-target="listings">
-                    <div class="layer-section-head-left">
-                        <span class="layer-section-dot" style="background:#5288c1"></span>
-                        <span class="layer-section-name">Listings feed</span>
-                        <span class="layer-section-count" id="listings-count">--</span>
+            <!-- Listings (primary) section -->
+            <div class="layer-section" id="listings-section">
+                <div class="layer-section-header" data-target="listings-body">
+                    <div class="layer-section-title">
+                        <svg class="layer-section-toggle" width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M8 11L3 6h10z"/></svg>
+                        Listings feed
                     </div>
-                    <svg class="layer-section-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+                    <div class="layer-section-count" id="listings-count">--</div>
                 </div>
-                <div class="layer-section-body">
-                    <!-- Stat cards -->
+                <div class="layer-section-body" id="listings-body">
                     <div class="stat-grid" id="listings-stats">
                         <div class="stat-card skeleton"></div>
                         <div class="stat-card skeleton"></div>
@@ -516,66 +470,62 @@
                         <div class="stat-card skeleton"></div>
                     </div>
 
-                    <!-- Bar chart with attribute picker -->
-                    <div class="section" id="listings-bar-section">
-                        <div class="section-header">
-                            <div class="section-title" id="listings-bar-title">By Category</div>
-                            <select class="section-select" id="listings-bar-select"></select>
-                        </div>
-                        <div class="bar-chart" id="listings-bar-chart"></div>
-                    </div>
-
-                    <!-- Histogram with attribute picker -->
-                    <div class="section" id="listings-hist-section">
+                    <div class="section" id="listings-hist-section" style="display:none">
                         <div class="section-header">
                             <div class="section-title" id="listings-hist-title">Distribution</div>
-                            <select class="section-select" id="listings-hist-select"></select>
+                            <select class="section-select" id="listings-hist-attr-select"></select>
                         </div>
                         <div class="histogram-wrap">
                             <div class="hist-tooltip" id="listings-hist-tooltip"></div>
                             <div class="histogram" id="listings-histogram"></div>
                         </div>
                         <div class="hist-labels" id="listings-hist-labels"></div>
-                        <div class="hist-filter-hint" id="listings-hist-hint">Filtering map to this range</div>
+                        <div class="hist-filter-hint">Filtering map to this range</div>
                     </div>
 
-                    <!-- Median price by type (custom block) -->
-                    <div class="section" id="listings-median-cat-section">
+                    <div class="section" id="listings-bar-section" style="display:none">
                         <div class="section-header">
-                            <div class="section-title" id="listings-median-cat-title">Median Price by Type</div>
+                            <div class="section-title" id="listings-bar-title">By Category</div>
+                            <select class="section-select" id="listings-bar-attr-select"></select>
                         </div>
-                        <div class="median-cat" id="listings-median-cat"></div>
+                        <div class="bar-chart" id="listings-bar-chart"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- ZONING layer section (collapsed by default) -->
-            <div class="layer-section" id="zoning-section" data-collapsed="true">
-                <div class="layer-section-head" data-target="zoning">
-                    <div class="layer-section-head-left">
-                        <span class="layer-section-dot" style="background:#9b6dff"></span>
-                        <span class="layer-section-name">Zoning</span>
-                        <span class="layer-section-count" id="zoning-count">--</span>
+            <!-- Zoning (secondary) section, collapsed by default -->
+            <div class="layer-section collapsed" id="zoning-section">
+                <div class="layer-section-header" data-target="zoning-body">
+                    <div class="layer-section-title">
+                        <svg class="layer-section-toggle" width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M8 11L3 6h10z"/></svg>
+                        Zoning
                     </div>
-                    <svg class="layer-section-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+                    <div class="layer-section-count" id="zoning-count">--</div>
                 </div>
-                <div class="layer-section-body">
-                    <div class="section" id="zoning-bar-section">
+                <div class="layer-section-body" id="zoning-body">
+                    <div class="section" id="zoning-bar-section" style="display:none">
                         <div class="section-header">
-                            <div class="section-title" id="zoning-bar-title">By Zoning Description</div>
+                            <div class="section-title" id="zoning-bar-title">By Category</div>
+                            <select class="section-select" id="zoning-bar-attr-select"></select>
                         </div>
                         <div class="bar-chart" id="zoning-bar-chart"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Legend (shared) -->
-            <div class="section" id="legend-section">
+            <!-- Layer toggle -->
+            <div class="section">
+                <div class="section-title">Layers</div>
+                <div id="layer-toggles"></div>
+            </div>
+
+            <!-- Legend -->
+            <div class="section">
                 <div class="section-title">Legend</div>
                 <div id="legend-container"></div>
             </div>
 
-            <!-- Detail panel (shared, populated on click) -->
+            <!-- Detail panel -->
             <div id="detail-panel"></div>
         </div>
     </div>
@@ -588,24 +538,23 @@
         mapId: "jz9BmgQoPQ9BOXNVycYUxUjD",
         feltApiToken: null,
         theme: "light",
-        title: "Baltimore real estate"
+        title: "Baltimore real estate",
     };
 
-    const LAYER_IDS = {
-        listings: "heaZARGoShSOpqEHLE8iaB",
-        zoning: "eYIlHMaOS1yhm4u79BtmvfD",
-        buildings: "0klFn3D3SVeHR9BuAibYEvB",
-        roads: "Q9AyE5oflRSSQ3OuCs2sHhA"
-    };
-    const DATA_LAYER_IDS = [LAYER_IDS.listings, LAYER_IDS.zoning];
+    const LISTINGS_LAYER_ID = "heaZARGoShSOpqEHLE8iaB";
+    const ZONING_LAYER_ID   = "eYIlHMaOS1yhm4u79BtmvfD";
+    const BUILDINGS_LAYER_ID = "0klFn3D3SVeHR9BuAibYEvB";
+    const ROADS_LAYER_ID     = "Q9AyE5oflRSSQ3OuCs2sHhA";
+    const DATA_LAYER_IDS = [LISTINGS_LAYER_ID, ZONING_LAYER_ID];
 
-    const LISTINGS_ACCENT = "#5288c1";
-    const FALLBACK_COLORS = ["#dbeafe", "#93c5fd", "#5288c1", "#1e3a8a"];
+    // Currency-formatted attributes
+    const CURRENCY_ATTRS = new Set(["price", "zestimate", "rentZestimate", "taxAssessedValue"]);
 
-    let felt, allLayers;
-    let listingsSchema = null, listingsNameMap = {};
-    let zoningSchema = null, zoningNameMap = {};
-    let listingsActiveFilter = null, zoningActiveFilter = null;
+    let felt;
+    let allLayers = [];
+    let listingsNameMap = {};
+    let zoningNameMap = {};
+    let listingsPaintColors = null;
 
     // ── Color utilities ──
     function hexToHSL(hex) {
@@ -652,7 +601,7 @@
     }
 
     function lerpColor(colors, t) {
-        if (!colors || colors.length < 2) return colors?.[0] || '#5288c1';
+        if (!colors || colors.length < 2) return colors?.[0] || '#6366f1';
         const i = Math.min(Math.floor(t * (colors.length - 1)), colors.length - 2);
         const f = t * (colors.length - 1) - i;
         const parse = c => [parseInt(c.slice(1,3),16), parseInt(c.slice(3,5),16), parseInt(c.slice(5,7),16)];
@@ -669,12 +618,18 @@
 
     function formatCurrency(val) {
         if (val == null || isNaN(val)) return '—';
-        if (val >= 1_000_000) return '$' + (val / 1_000_000).toFixed(2) + 'M';
-        if (val >= 1_000) return '$' + (val / 1000).toFixed(0) + 'k';
-        return '$' + val.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        return '$' + Number(val).toLocaleString(undefined, { maximumFractionDigits: 0 });
     }
 
-    // ── Theme ──
+    function formatCompact(val) {
+        if (val == null || isNaN(val)) return '—';
+        const n = Number(val);
+        if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+        if (Math.abs(n) >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+        return '$' + n.toFixed(0);
+    }
+
+    // ── Theme engine ──
     function deriveTheme(accentHex, isDark) {
         const root = document.documentElement;
         const vars = ['--pane-bg','--pane-bg-opaque','--pane-shine','--bg-secondary',
@@ -694,6 +649,7 @@
                 accent = darkenHex(accent, 20);
             }
         }
+
         root.style.setProperty('--accent', accent);
         const hc = accent.replace('#', '');
         const r = parseInt(hc.substring(0, 2), 16);
@@ -715,7 +671,7 @@
         btn.addEventListener('click', () => {
             const isDark = document.documentElement.hasAttribute('data-theme');
             const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-            deriveTheme(accent || LISTINGS_ACCENT, !isDark);
+            deriveTheme(accent || '#5288c1', !isDark);
             update();
         });
         update();
@@ -723,16 +679,11 @@
 
     // ── Schema helpers ──
     function classifyAttrs(schema) {
-        const numeric = [], category = [], text = [], datetime = [];
-        const skipIds = new Set([
-            'zpid', 'latitude', 'longitude', 'detailUrl',
-            'primaryImageUrl', 'photo2Url', 'photo3Url', 'homeStatus'
-        ]);
-        const epochRe = /^(time|timestamp|updated|created|date|epoch|unix)$/i;
+        const numeric = [], category = [], datetime = [], text = [];
+        const epochRe = /^(time|timestamp|updated|created|date|epoch|unix|_at|_ts)$/i;
         for (const a of schema.attributes) {
-            if (skipIds.has(a.id)) continue;
             const t = (a.type || '').toLowerCase();
-            if (['number','numeric','float','integer','double'].includes(t)) {
+            if (['number','numeric','float','integer','double','real'].includes(t)) {
                 if (!epochRe.test(a.id) && !a.id.endsWith('_at') && !a.id.endsWith('_ts')) numeric.push(a);
             }
             else if (t === 'datetime' || t === 'date') datetime.push(a);
@@ -741,284 +692,321 @@
         return { numeric, category, datetime, text };
     }
 
-    // ── Section collapse helper ──
-    function initSectionCollapse() {
-        document.querySelectorAll('.layer-section-head').forEach(head => {
-            head.addEventListener('click', () => {
-                const section = head.closest('.layer-section');
-                const collapsed = section.getAttribute('data-collapsed') === 'true';
-                section.setAttribute('data-collapsed', collapsed ? 'false' : 'true');
+    // ── Collapsible sections ──
+    function initCollapsibles() {
+        document.querySelectorAll('.layer-section-header').forEach(h => {
+            h.addEventListener('click', () => {
+                h.parentElement.classList.toggle('collapsed');
             });
         });
     }
 
-    // ── Stat cards (Listings) ──
-    async function loadListingsStatCards() {
+    // ── stat-cards (Listings, currency-formatted) ──
+    async function loadListingsStats() {
         const el = document.getElementById('listings-stats');
-        const layerId = LAYER_IDS.listings;
         try {
-            const [countRes, avgPriceRes, medPriceRes, avgSqftRes] = await Promise.allSettled([
-                felt.getAggregates({ layerId, aggregation: { methods: ["count"] } }),
-                felt.getAggregates({ layerId, aggregation: { methods: ["avg"], attribute: "price" } }),
-                felt.getAggregates({ layerId, aggregation: { methods: ["median"], attribute: "price" } }),
-                felt.getAggregates({ layerId, aggregation: { methods: ["avg"], attribute: "sqft" } })
+            const calls = await Promise.allSettled([
+                felt.getAggregates({ layerId: LISTINGS_LAYER_ID, aggregation: { methods: ["count"] } }),
+                felt.getAggregates({ layerId: LISTINGS_LAYER_ID, aggregation: { methods: ["avg", "median"], attribute: "price" } }),
+                felt.getAggregates({ layerId: LISTINGS_LAYER_ID, aggregation: { methods: ["avg"], attribute: "sqft" } }),
             ]);
-            const count = countRes.status === 'fulfilled' ? countRes.value.count : null;
-            const avgPrice = avgPriceRes.status === 'fulfilled' ? avgPriceRes.value.avg : null;
-            const medPrice = medPriceRes.status === 'fulfilled' ? medPriceRes.value.median : null;
-            const avgSqft = avgSqftRes.status === 'fulfilled' ? avgSqftRes.value.avg : null;
+
+            const countR  = calls[0].status === 'fulfilled' ? calls[0].value : {};
+            const priceR  = calls[1].status === 'fulfilled' ? calls[1].value : {};
+            const sqftR   = calls[2].status === 'fulfilled' ? calls[2].value : {};
 
             const cards = [
-                { label: 'Total Listings', value: count != null ? count.toLocaleString() : '—' },
-                { label: 'Avg Price', value: formatCurrency(avgPrice) },
-                { label: 'Median Price', value: formatCurrency(medPrice) },
-                { label: 'Avg Sqft', value: avgSqft != null ? Math.round(avgSqft).toLocaleString() : '—' }
+                { label: 'Total Listings', value: countR.count != null ? countR.count.toLocaleString() : '—' },
+                { label: 'Avg Price',      value: priceR.avg != null ? formatCompact(priceR.avg) : '—' },
+                { label: 'Median Price',   value: priceR.median != null ? formatCompact(priceR.median) : '—' },
+                { label: 'Avg Sqft',       value: sqftR.avg != null ? Math.round(sqftR.avg).toLocaleString() : '—' },
             ];
-            el.innerHTML = cards.map(c =>
-                `<div class="stat-card"><div class="stat-value">${c.value}</div><div class="stat-label">${c.label}</div></div>`
-            ).join('');
 
-            // Update count badge
-            if (count != null) {
-                document.getElementById('listings-count').textContent = count.toLocaleString() + ' listings';
-                document.getElementById('feature-count').style.display = '';
-                document.getElementById('count-label').textContent = count.toLocaleString() + ' listings';
-            }
+            el.innerHTML = cards.map(c =>
+                `<div class="stat-card">
+                    <div class="stat-value">${c.value}</div>
+                    <div class="stat-label">${c.label}</div>
+                </div>`
+            ).join("");
         } catch (e) {
             console.warn('Stat cards failed:', e);
-            el.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">Could not load statistics</div>';
+            el.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">Could not load statistics</div>`;
         }
     }
 
-    // ── Bar chart (generic) ──
-    async function loadBarChart(layerId, attrId, containerId, options = {}) {
-        const { nameMap = {}, accentColor = 'var(--accent)', onHover, onLeave, titleEl } = options;
+    // ── bar-chart (with hover-to-filter + click-to-lock) ──
+    async function loadBarChart(layerId, containerId, options = {}) {
+        const { attrId, nameMap = {}, mapCatColorMap = {}, mapStyledAttr = null } = options;
         const el = document.getElementById(containerId);
-        if (!attrId) { el.innerHTML = ''; return; }
+        const section = el.closest('.section');
+        if (!attrId) { section.style.display = 'none'; return false; }
+
+        // Reset any existing filter on this layer before re-rendering
+        try { await felt.setLayerFilters({ layerId, filters: null }); } catch (e) {}
+
+        const useMapColors = (attrId === mapStyledAttr) && Object.keys(mapCatColorMap).length > 0;
 
         try {
             const data = await felt.getCategoryData({ layerId, attribute: attrId });
-            if (!data || data.length === 0) {
-                el.innerHTML = '<div class="empty-state">No data</div>';
-                return;
-            }
+            if (!data || data.length === 0) { section.style.display = 'none'; return false; }
+            const maxVal = Math.max(...data.map(c => c.value));
+            if (data.length > 30 || maxVal <= 1) { section.style.display = 'none'; return false; }
 
-            const max = Math.max(...data.map(c => c.value));
-            const sliced = data.slice(0, 8);
+            section.style.display = '';
             const displayName = nameMap[attrId] || attrId;
+            const titleEl = section.querySelector('.section-title');
             if (titleEl) titleEl.textContent = `By ${displayName}`;
+
+            const sliced = data.slice(0, 8);
+            const max = Math.max(...sliced.map(c => c.value));
 
             el.innerHTML = sliced.map(cat => {
                 const pct = (cat.value / max) * 100;
-                const opacity = 0.45 + (pct / 180);
+                const color = useMapColors
+                    ? (mapCatColorMap[cat.key] || 'var(--text-muted)')
+                    : 'var(--accent)';
+                const opacity = useMapColors ? 1 : (0.45 + (pct / 180));
                 const safeKey = String(cat.key ?? '').replace(/"/g, '&quot;');
-                const labelText = cat.key || 'Unknown';
                 return `<div class="bar-row" data-cat="${safeKey}">
-                    <div class="bar-label" title="${labelText}">${labelText}</div>
+                    <div class="bar-label" title="${cat.key ?? 'Unknown'}">${cat.key ?? 'Unknown'}</div>
                     <div class="bar-track">
-                        <div class="bar-fill" style="width:${pct}%;background:${accentColor};opacity:${opacity};"></div>
+                        <div class="bar-fill" style="width:${pct}%;background:${color};opacity:${opacity};"></div>
                     </div>
                     <div class="bar-value">${cat.value.toLocaleString()}</div>
                 </div>`;
             }).join('');
 
-            if (onHover && onLeave) {
-                const rows = el.querySelectorAll('.bar-row');
-                rows.forEach(row => {
-                    row.addEventListener('mouseenter', () => {
-                        rows.forEach(r => r.classList.toggle('dimmed', r !== row));
-                        onHover(attrId, row.dataset.cat);
-                    });
-                    row.addEventListener('mouseleave', () => {
-                        rows.forEach(r => r.classList.remove('dimmed'));
-                        onLeave();
-                    });
+            // Hover-to-filter + click-to-lock (per-chart lock)
+            const rows = el.querySelectorAll('.bar-row');
+            let lockedKey = null;
+
+            const applyFilter = (key) => felt.setLayerFilters({ layerId, filters: [attrId, "eq", key] });
+            const clearFilter = () => felt.setLayerFilters({ layerId, filters: null });
+
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', () => {
+                    rows.forEach(r => r.classList.toggle('dimmed', r !== row && r.dataset.cat !== lockedKey));
+                    applyFilter(row.dataset.cat);
                 });
-            }
+                row.addEventListener('mouseleave', () => {
+                    rows.forEach(r => r.classList.remove('dimmed'));
+                    if (lockedKey) applyFilter(lockedKey);
+                    else clearFilter();
+                });
+                row.addEventListener('click', () => {
+                    if (lockedKey === row.dataset.cat) {
+                        lockedKey = null;
+                        row.classList.remove('locked');
+                        clearFilter();
+                    } else {
+                        rows.forEach(r => r.classList.remove('locked'));
+                        lockedKey = row.dataset.cat;
+                        row.classList.add('locked');
+                        applyFilter(lockedKey);
+                    }
+                });
+            });
+            return true;
         } catch (e) {
             console.warn('Bar chart failed:', e);
-            el.innerHTML = '<div class="empty-state">Could not load chart</div>';
+            section.style.display = 'none';
+            return false;
         }
     }
 
-    // ── Histogram (Listings) ──
-    async function loadListingsHistogram(attrId) {
-        const layerId = LAYER_IDS.listings;
-        const el = document.getElementById('listings-histogram');
-        const labelsEl = document.getElementById('listings-hist-labels');
-        const tooltip = document.getElementById('listings-hist-tooltip');
-        const hint = document.getElementById('listings-hist-hint');
-        const titleEl = document.getElementById('listings-hist-title');
+    // ── histogram (with hover-to-filter + click-to-lock) ──
+    async function loadHistogram(layerId, containerId, options = {}) {
+        const { attrId, nameMap = {}, paintColors = null, mapStyledAttr = null } = options;
+        const el = document.getElementById(containerId);
+        const section = el.closest('.section');
+        const labelsEl = document.getElementById(containerId.replace('-histogram','-hist-labels'))
+                       || section.querySelector('.hist-labels');
 
-        if (!attrId) return;
+        if (!attrId) { section.style.display = 'none'; return; }
+
+        // Reset any existing filter on this layer before re-rendering
+        try { await felt.setLayerFilters({ layerId, filters: null }); } catch (e) {}
+
+        const useMapColors = (attrId === mapStyledAttr) && paintColors?.length >= 2;
+        const isCurrency = CURRENCY_ATTRS.has(attrId);
+
         try {
             const bins = await felt.getHistogramData({
                 layerId,
                 attribute: attrId,
                 steps: { type: "equal-intervals", count: 10 }
             });
-            if (!bins || bins.length === 0) {
-                el.innerHTML = '<div class="empty-state">No data</div>';
-                return;
-            }
-            const displayName = listingsNameMap[attrId] || attrId;
-            titleEl.textContent = `${displayName} Distribution`;
+            if (!bins || bins.length === 0) { section.style.display = 'none'; return; }
+
+            section.style.display = '';
+            const displayName = nameMap[attrId] || attrId;
+            const titleEl = section.querySelector('.section-title');
+            if (titleEl) titleEl.textContent = `${displayName} Distribution`;
             const max = Math.max(...bins.map(b => b.value));
+
+            const fmtBin = (v) => isCurrency ? formatCompact(v) : v.toLocaleString(undefined, { maximumFractionDigits: 1 });
 
             el.innerHTML = bins.map((bin, i) => {
                 const pct = max > 0 ? (bin.value / max) * 100 : 0;
-                return `<div class="hist-bar" data-min="${bin.min}" data-max="${bin.max}" style="height:${Math.max(pct, 2)}%;"></div>`;
+                const t = bins.length > 1 ? i / (bins.length - 1) : 0;
+                const color = useMapColors ? lerpColor(paintColors, t) : 'var(--accent)';
+                return `<div class="hist-bar" data-min="${bin.min}" data-max="${bin.max}" style="height:${Math.max(pct, 2)}%;background:${color};" title="${fmtBin(bin.min)} – ${fmtBin(bin.max)}: ${bin.value.toLocaleString()}"></div>`;
             }).join('');
-
-            const isCurrency = attrId === 'price' || attrId === 'zestimate' || attrId === 'rentZestimate' || attrId === 'taxAssessedValue';
-            const fmt = (v) => isCurrency ? formatCurrency(v) : (v >= 1000 ? Math.round(v).toLocaleString() : v.toFixed(1));
-
-            const bars = el.querySelectorAll('.hist-bar');
-            bars.forEach(bar => {
-                bar.addEventListener('mouseenter', () => {
-                    bars.forEach(b => { if (b !== bar) b.style.opacity = '0.3'; });
-                    const min = parseFloat(bar.dataset.min);
-                    const max = parseFloat(bar.dataset.max);
-                    if (tooltip) {
-                        const wrapRect = el.parentElement.getBoundingClientRect();
-                        const barRect = bar.getBoundingClientRect();
-                        tooltip.style.left = (barRect.left - wrapRect.left + barRect.width / 2) + 'px';
-                        tooltip.textContent = `${fmt(min)} – ${fmt(max)}`;
-                        tooltip.classList.add('visible');
-                    }
-                    if (hint) hint.classList.add('visible');
-                    highlightListingsRange(attrId, min, max);
-                });
-                bar.addEventListener('mouseleave', () => {
-                    bars.forEach(b => b.style.opacity = '');
-                    if (tooltip) tooltip.classList.remove('visible');
-                    if (hint) hint.classList.remove('visible');
-                    clearListingsFilter();
-                });
-            });
 
             if (labelsEl) {
-                labelsEl.innerHTML = `<span>${fmt(bins[0].min)}</span><span>${fmt(bins[bins.length - 1].max)}</span>`;
-            }
-        } catch (e) {
-            console.warn('Histogram failed:', e);
-            el.innerHTML = '<div class="empty-state">Could not load distribution</div>';
-        }
-    }
-
-    // ── Median by category (custom block, Listings) ──
-    async function renderMedianByCategory(layerId, categoryAttrId, numericAttrId, options = {}) {
-        const { nameMap = {}, accentColor = 'var(--accent)', titleEl } = options;
-        const el = document.getElementById('listings-median-cat');
-        if (!el) return;
-
-        try {
-            // Get the categories for the chosen categorical attribute
-            const cats = await felt.getCategoryData({ layerId, attribute: categoryAttrId });
-            if (!cats || cats.length === 0) {
-                el.innerHTML = '<div class="empty-state">No data</div>';
-                return;
+                labelsEl.innerHTML = `<span>${fmtBin(bins[0].min)}</span><span>${fmtBin(bins[bins.length - 1].max)}</span>`;
             }
 
-            // For each category, fetch median of the numeric attribute, scoped via filter
-            const results = await Promise.all(cats.map(async (c) => {
-                if (c.key == null) return { key: c.key, median: null };
-                try {
-                    const res = await felt.getAggregates({
-                        layerId,
-                        aggregation: { methods: ["median"], attribute: numericAttrId },
-                        filters: [categoryAttrId, "eq", c.key]
-                    });
-                    return { key: c.key, median: res?.median ?? null };
-                } catch (e) {
-                    return { key: c.key, median: null };
-                }
-            }));
+            const bars = el.querySelectorAll('.hist-bar');
+            const tooltip = section.querySelector('.hist-tooltip');
+            const hint = section.querySelector('.hist-filter-hint');
+            let lockedRange = null;
 
-            // Sort descending by median (nulls last)
-            results.sort((a, b) => {
-                if (a.median == null && b.median == null) return 0;
-                if (a.median == null) return 1;
-                if (b.median == null) return -1;
-                return b.median - a.median;
-            });
-
-            const max = Math.max(...results.map(r => r.median ?? 0)) || 1;
-            const catLabel = nameMap[categoryAttrId] || categoryAttrId;
-            const numLabel = nameMap[numericAttrId] || numericAttrId;
-            if (titleEl) titleEl.textContent = `Median ${numLabel} by ${catLabel}`;
-
-            el.innerHTML = results.map(r => {
-                const pct = r.median != null ? (r.median / max) * 100 : 0;
-                const opacity = 0.45 + (pct / 180);
-                const labelText = r.key || 'Unknown';
-                const valueText = r.median != null ? formatCurrency(r.median) : '—';
-                return `<div class="median-cat-row">
-                    <div class="median-cat-label" title="${labelText}">${labelText}</div>
-                    <div class="median-cat-track">
-                        <div class="median-cat-fill" style="width:${pct}%;background:${accentColor};opacity:${opacity};"></div>
-                    </div>
-                    <div class="median-cat-value">${valueText}</div>
-                </div>`;
-            }).join('');
-        } catch (e) {
-            console.warn('Median-by-category failed:', e);
-            el.innerHTML = '<div class="empty-state">Could not load medians</div>';
-        }
-    }
-
-    // ── Hover-to-filter (Listings, scoped) ──
-    async function highlightListingsCategory(attrId, value) {
-        try {
-            await felt.setLayerFilters({
-                layerId: LAYER_IDS.listings,
-                filters: [attrId, "eq", value]
-            });
-            listingsActiveFilter = true;
-        } catch (e) { console.warn('Listings filter failed:', e); }
-    }
-    async function highlightListingsRange(attrId, min, max) {
-        try {
-            await felt.setLayerFilters({
-                layerId: LAYER_IDS.listings,
+            const applyFilter = (min, max) => felt.setLayerFilters({
+                layerId,
                 filters: [[attrId, "ge", min], "and", [attrId, "lt", max]]
             });
-            listingsActiveFilter = true;
-        } catch (e) { console.warn('Listings range filter failed:', e); }
-    }
-    async function clearListingsFilter() {
-        if (!listingsActiveFilter) return;
-        try {
-            await felt.setLayerFilters({ layerId: LAYER_IDS.listings, filters: null });
-            listingsActiveFilter = null;
-        } catch (e) {}
-    }
+            const clearFilter = () => felt.setLayerFilters({ layerId, filters: null });
 
-    // ── Hover-to-filter (Zoning, scoped) ──
-    async function highlightZoningCategory(attrId, value) {
-        try {
-            await felt.setLayerFilters({
-                layerId: LAYER_IDS.zoning,
-                filters: [attrId, "eq", value]
+            const showTooltip = (bar, min, max) => {
+                if (!tooltip) return;
+                const wrapRect = el.parentElement.getBoundingClientRect();
+                const barRect = bar.getBoundingClientRect();
+                tooltip.style.left = (barRect.left - wrapRect.left + barRect.width / 2) + 'px';
+                tooltip.textContent = `${fmtBin(min)} - ${fmtBin(max)}`;
+                tooltip.classList.add('visible');
+            };
+            const hideTooltip = () => { if (tooltip) tooltip.classList.remove('visible'); };
+
+            bars.forEach(bar => {
+                const min = parseFloat(bar.dataset.min);
+                const max = parseFloat(bar.dataset.max);
+                const isLocked = () => lockedRange && lockedRange.min === min && lockedRange.max === max;
+
+                bar.addEventListener('mouseenter', () => {
+                    bars.forEach(b => {
+                        const bMin = parseFloat(b.dataset.min);
+                        const isThisLocked = lockedRange && lockedRange.min === bMin;
+                        b.style.opacity = (b === bar || isThisLocked) ? '' : '0.3';
+                    });
+                    showTooltip(bar, min, max);
+                    if (hint) hint.classList.add('visible');
+                    applyFilter(min, max);
+                });
+
+                bar.addEventListener('mouseleave', () => {
+                    bars.forEach(b => b.style.opacity = '');
+                    hideTooltip();
+                    if (hint) hint.classList.remove('visible');
+                    if (lockedRange) applyFilter(lockedRange.min, lockedRange.max);
+                    else clearFilter();
+                });
+
+                bar.addEventListener('click', () => {
+                    if (isLocked()) {
+                        lockedRange = null;
+                        bar.classList.remove('locked');
+                        clearFilter();
+                    } else {
+                        bars.forEach(b => b.classList.remove('locked'));
+                        lockedRange = { min, max };
+                        bar.classList.add('locked');
+                        applyFilter(min, max);
+                    }
+                });
             });
-            zoningActiveFilter = true;
-        } catch (e) { console.warn('Zoning filter failed:', e); }
-    }
-    async function clearZoningFilter() {
-        if (!zoningActiveFilter) return;
-        try {
-            await felt.setLayerFilters({ layerId: LAYER_IDS.zoning, filters: null });
-            zoningActiveFilter = null;
-        } catch (e) {}
+        } catch (e) {
+            console.warn('Histogram failed:', e);
+            section.style.display = 'none';
+        }
     }
 
-    // ── Attribute pickers (populate selects) ──
-    function initAttrPicker(selectId, attributes, defaultId, onChange) {
+    // ── attribute-picker ──
+    function initAttributePicker(selectId, attributes, onAttrChange, defaultAttrId = null) {
         const select = document.getElementById(selectId);
         select.innerHTML = attributes.map(a =>
-            `<option value="${a.id}"${a.id === defaultId ? ' selected' : ''}>${a.displayName}</option>`
+            `<option value="${a.id}">${a.displayName}</option>`
         ).join('');
-        select.addEventListener('change', () => onChange(select.value));
+        if (defaultAttrId && attributes.some(a => a.id === defaultAttrId)) {
+            select.value = defaultAttrId;
+        }
+        select.addEventListener('change', () => onAttrChange(select.value));
+    }
+
+    // ── Legend ──
+    async function loadLegend(containerId) {
+        const container = document.getElementById(containerId);
+        const layers = await felt.getLayers();
+        const visibleLayers = layers.filter(l => l.visible !== false && l.style?.paint?.color);
+
+        if (visibleLayers.length === 0) {
+            container.innerHTML = '<div class="legend-label">No styled layers</div>';
+            return;
+        }
+
+        let allLegendItems = [];
+        try { allLegendItems = await felt.getLegendItems(); } catch (e) {}
+
+        container.innerHTML = visibleLayers.map(vl => {
+            const colors = vl.style.paint.color;
+            const labels = vl.style?.legend?.displayName || {};
+            const categories = vl.style?.config?.categories || [];
+            const layerLegendItems = allLegendItems.filter(li => li.layerId === vl.id);
+            const title = vl.name || 'Legend';
+
+            const colorList = Array.isArray(colors) ? colors : [colors];
+            const swatches = colorList.map((c, i) => {
+                let label = labels[String(i)] || categories[i] || '';
+                if (!label && layerLegendItems[i]) label = layerLegendItems[i].label || layerLegendItems[i].key || '';
+                if (!label && colorList.length === 1) label = vl.name || '';
+                const legendItemId = layerLegendItems[i]?.id || '';
+                return `<div class="legend-item" data-layer-id="${vl.id}" data-legend-id="${legendItemId}">
+                    <div class="legend-swatch" style="background:${c}"></div>
+                    <div class="legend-label">${label}</div>
+                </div>`;
+            }).join('');
+
+            return `<div class="legend-section">
+                <div class="legend-section-title">${title}</div>
+                <div class="legend-row">${swatches}</div>
+            </div>`;
+        }).join('');
+
+        container.querySelectorAll('.legend-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                const legendId = item.dataset.legendId;
+                const layerIdVal = item.dataset.layerId;
+                if (!legendId) return;
+                const isHidden = item.classList.toggle('hidden');
+                const payload = isHidden
+                    ? { hide: [{ layerId: layerIdVal, id: legendId }] }
+                    : { show: [{ layerId: layerIdVal, id: legendId }] };
+                try { await felt.setLegendItemVisibility(payload); } catch (e) { console.warn('Toggle failed:', e); }
+            });
+        });
+    }
+
+    // ── Layer toggle ──
+    async function initLayerToggles(containerId) {
+        const container = document.getElementById(containerId);
+        const layers = await felt.getLayers();
+        const dataLayers = layers.filter(l => l.type !== 'raster');
+
+        container.innerHTML = dataLayers.map(l =>
+            `<label class="layer-toggle-item">
+                <input type="checkbox" data-layer-id="${l.id}" ${l.visible !== false ? 'checked' : ''}>
+                ${l.name || 'Untitled Layer'}
+            </label>`
+        ).join('');
+
+        container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', async () => {
+                const layerId = cb.dataset.layerId;
+                await felt.setLayerVisibility(
+                    cb.checked ? { show: [layerId] } : { hide: [layerId] }
+                );
+            });
+        });
     }
 
     // ── Detail panel ──
@@ -1026,28 +1014,20 @@
         const { nameMap = {}, title = 'Feature Details' } = options;
         const panel = document.getElementById('detail-panel');
 
-        // Pretty-print: skip empty raw URLs as raw, show as link
-        const urlKeys = new Set(['detailUrl', 'primaryImageUrl', 'photo2Url', 'photo3Url']);
-        const rows = Object.entries(properties).map(([key, value]) => {
+        // Skip noisy fields like raw photo URLs
+        const SKIP = new Set(['photo','photoUrls','detailUrl','zpid','lat','lon','latitude','longitude','homeStatus']);
+
+        let rows = '';
+        for (const [key, value] of Object.entries(properties)) {
+            if (SKIP.has(key)) continue;
             const label = nameMap[key] || key;
             let display;
             if (value == null || value === '') display = '—';
-            else if (urlKeys.has(key) && typeof value === 'string' && value.startsWith('http')) {
-                display = `<a href="${value}" target="_blank" rel="noopener">View</a>`;
-            }
-            else if (typeof value === 'number') {
-                if (key === 'price' || key === 'zestimate' || key === 'rentZestimate' || key === 'taxAssessedValue') {
-                    display = formatCurrency(value);
-                } else if (Number.isInteger(value)) {
-                    display = value.toLocaleString();
-                } else {
-                    display = value.toLocaleString(undefined, { maximumFractionDigits: 2 });
-                }
-            } else {
-                display = String(value);
-            }
-            return `<div class="detail-row"><span class="detail-key">${label}</span><span class="detail-val">${display}</span></div>`;
-        }).join('');
+            else if (CURRENCY_ATTRS.has(key) && typeof value === 'number') display = formatCurrency(value);
+            else if (typeof value === 'number') display = value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            else display = String(value);
+            rows += `<div class="detail-row"><span class="detail-key">${label}</span><span class="detail-val">${display}</span></div>`;
+        }
 
         panel.innerHTML = `<div class="detail-panel">
             <div class="detail-header">${title}</div>
@@ -1058,206 +1038,173 @@
     function initClickToDetail() {
         felt.onPointerClick({
             handler: (e) => {
-                const panel = document.getElementById('detail-panel');
-                if (!e.features?.length) { panel.innerHTML = ''; return; }
+                if (!e.features?.length) return;
                 const feature = e.features[0];
                 const layer = allLayers.find(l => l.id === feature.layerId);
-                let nameMap = {};
-                if (feature.layerId === LAYER_IDS.listings) nameMap = listingsNameMap;
-                else if (feature.layerId === LAYER_IDS.zoning) nameMap = zoningNameMap;
+                let nm = {};
+                if (feature.layerId === LISTINGS_LAYER_ID) nm = listingsNameMap;
+                else if (feature.layerId === ZONING_LAYER_ID) nm = zoningNameMap;
                 renderDetailPanel(feature.properties, {
-                    nameMap,
+                    nameMap: nm,
                     title: layer?.name || 'Feature Details'
                 });
             }
         });
     }
 
-    // ── Legend (custom) ──
-    async function loadLegend() {
-        const container = document.getElementById('legend-container');
-        const layers = await felt.getLayers();
-        const orderedIds = [LAYER_IDS.listings, LAYER_IDS.zoning, LAYER_IDS.buildings, LAYER_IDS.roads];
-        const visibleLayers = orderedIds
-            .map(id => layers.find(l => l.id === id))
-            .filter(l => l && l.visible !== false);
-
-        let allLegendItems = [];
-        try { allLegendItems = await felt.getLegendItems(); } catch (e) {}
-
-        const sections = visibleLayers.map(vl => {
-            const paint = vl.style?.paint || {};
-            const colors = paint.color;
-            const labels = vl.style?.legend?.displayName || {};
-            const categories = vl.style?.config?.categories || [];
-            const title = vl.name || 'Layer';
-            const layerLegendItems = allLegendItems.filter(li => li.layerId === vl.id);
-            const isLine = vl.geometryType === 'Line' || vl.id === LAYER_IDS.roads;
-
-            // Build swatches
-            let items;
-            if (!colors) {
-                // No paint color metadata — show one neutral swatch
-                items = `<div class="legend-item"><div class="legend-swatch" style="background:var(--text-muted);opacity:0.4;"></div><div class="legend-label">${title}</div></div>`;
-            } else if (Array.isArray(colors)) {
-                items = colors.map((c, i) => {
-                    const label = labels[String(i)] || categories[i] || '';
-                    const legendItemId = layerLegendItems[i]?.id || '';
-                    const swatch = isLine
-                        ? `<div class="legend-line-swatch" style="background:${c}"></div>`
-                        : `<div class="legend-swatch" style="background:${c}"></div>`;
-                    return `<div class="legend-item" data-layer-id="${vl.id}" data-legend-id="${legendItemId}">
-                        ${swatch}
-                        <div class="legend-label">${label || title}</div>
-                    </div>`;
-                }).join('');
-            } else {
-                // Single color
-                const swatch = isLine
-                    ? `<div class="legend-line-swatch" style="background:${colors}"></div>`
-                    : `<div class="legend-swatch" style="background:${colors}"></div>`;
-                items = `<div class="legend-item"><div class="legend-item-inner" style="display:flex;align-items:center;gap:5px">${swatch}<div class="legend-label">${title}</div></div></div>`;
-            }
-
-            return `<div class="legend-section">
-                <div class="legend-section-title">${title}</div>
-                <div class="legend-row">${items}</div>
-            </div>`;
-        }).join('');
-
-        container.innerHTML = sections || '<div class="legend-label">No styled layers</div>';
-
-        // Toggle handlers
-        container.querySelectorAll('.legend-item').forEach(item => {
-            item.addEventListener('click', async () => {
-                const legendId = item.dataset.legendId;
-                const layerIdVal = item.dataset.layerId;
-                if (!legendId) return;
-                const isHidden = item.classList.toggle('hidden');
-                const payload = isHidden
-                    ? { hide: [{ layerId: layerIdVal, id: legendId }] }
-                    : { show: [{ layerId: layerIdVal, id: legendId }] };
-                try { await felt.setLegendItemVisibility(payload); }
-                catch (e) { console.warn('Legend toggle failed:', e); }
-            });
-        });
-    }
-
-    // ── Activate Listings layer ──
-    async function activateListings() {
-        listingsSchema = await felt.getLayerSchema(LAYER_IDS.listings);
-        listingsNameMap = {};
-        listingsSchema.attributes.forEach(a => { listingsNameMap[a.id] = a.displayName; });
-        const classified = classifyAttrs(listingsSchema);
-
-        // Stat cards
-        loadListingsStatCards();
-
-        // Bar chart attributes — small categorical attrs
-        const barAttrs = ['homeType', 'statusText', 'city']
-            .map(id => classified.category.find(a => a.id === id))
-            .filter(Boolean);
-        if (barAttrs.length > 0) {
-            const defaultBar = barAttrs[0].id;
-            const titleEl = document.getElementById('listings-bar-title');
-            initAttrPicker('listings-bar-select', barAttrs, defaultBar, async (attrId) => {
-                await loadBarChart(LAYER_IDS.listings, attrId, 'listings-bar-chart', {
-                    nameMap: listingsNameMap,
-                    accentColor: LISTINGS_ACCENT,
-                    titleEl,
-                    onHover: (attr, val) => highlightListingsCategory(attr, val),
-                    onLeave: () => clearListingsFilter()
-                });
-            });
-            await loadBarChart(LAYER_IDS.listings, defaultBar, 'listings-bar-chart', {
-                nameMap: listingsNameMap,
-                accentColor: LISTINGS_ACCENT,
-                titleEl,
-                onHover: (attr, val) => highlightListingsCategory(attr, val),
-                onLeave: () => clearListingsFilter()
-            });
-        } else {
-            document.getElementById('listings-bar-section').style.display = 'none';
-        }
-
-        // Histogram attributes — selected numerics
-        const histAttrIds = ['price', 'beds', 'baths', 'sqft', 'daysOnZillow', 'zestimate'];
-        const histAttrs = histAttrIds
-            .map(id => classified.numeric.find(a => a.id === id))
-            .filter(Boolean);
-        if (histAttrs.length > 0) {
-            const defaultHist = histAttrs[0].id;
-            initAttrPicker('listings-hist-select', histAttrs, defaultHist, async (attrId) => {
-                await loadListingsHistogram(attrId);
-            });
-            await loadListingsHistogram(defaultHist);
-        } else {
-            document.getElementById('listings-hist-section').style.display = 'none';
-        }
-
-        // Median price by homeType (custom block — display-only, no filter side-effects)
-        const hasHomeType = classified.category.some(a => a.id === 'homeType');
-        const hasPrice = classified.numeric.some(a => a.id === 'price');
-        if (hasHomeType && hasPrice) {
-            const medianTitleEl = document.getElementById('listings-median-cat-title');
-            await renderMedianByCategory(LAYER_IDS.listings, 'homeType', 'price', {
-                nameMap: listingsNameMap,
-                accentColor: LISTINGS_ACCENT,
-                titleEl: medianTitleEl
-            });
-        } else {
-            document.getElementById('listings-median-cat-section').style.display = 'none';
-        }
-    }
-
-    // ── Activate Zoning layer ──
-    async function activateZoning() {
-        zoningSchema = await felt.getLayerSchema(LAYER_IDS.zoning);
-        zoningNameMap = {};
-        zoningSchema.attributes.forEach(a => { zoningNameMap[a.id] = a.displayName; });
-
-        // Update count
-        document.getElementById('zoning-count').textContent = zoningSchema.featureCount.toLocaleString() + ' parcels';
-
-        // Bar chart on zoning_description (8 categories)
-        const titleEl = document.getElementById('zoning-bar-title');
-        await loadBarChart(LAYER_IDS.zoning, 'zoning_description', 'zoning-bar-chart', {
-            nameMap: zoningNameMap,
-            accentColor: '#9b6dff',
-            titleEl,
-            onHover: (attr, val) => highlightZoningCategory(attr, val),
-            onLeave: () => clearZoningFilter()
-        });
-    }
-
     // ── Init ──
     async function init() {
         initThemeToggle();
-        initSectionCollapse();
-
-        const isDark = CONFIG.theme === 'dark';
-        deriveTheme(LISTINGS_ACCENT, isDark);
-        document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
-        document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
+        initCollapsibles();
 
         felt = await Felt.embed(document.getElementById('map'), CONFIG.mapId, {
             uiControls: { showLegend: false, cooperativeGestures: false }
         });
 
         const details = await felt.getMapDetails();
-        const title = CONFIG.title || details.title || 'Baltimore real estate';
+        const title = CONFIG.title || details.title || 'Dashboard';
         document.getElementById('title').textContent = title;
         document.title = title;
-        document.getElementById('subtitle').textContent = 'Listings + zoning';
 
         allLayers = await felt.getLayers();
 
-        // Activate both layers
-        await activateListings();
-        await activateZoning();
+        const listingsLayer = allLayers.find(l => l.id === LISTINGS_LAYER_ID);
+        const zoningLayer   = allLayers.find(l => l.id === ZONING_LAYER_ID);
 
-        // Shared
-        await loadLegend();
+        // Theme + accent from Listings paint (single blue)
+        const FALLBACK_COLORS = ['#5288c1'];
+        const lc = listingsLayer?.style?.paint?.color;
+        listingsPaintColors = Array.isArray(lc) ? lc : (lc ? [lc] : FALLBACK_COLORS);
+        let accentHex = '#5288c1';
+        if (typeof lc === 'string' && lc.startsWith('#')) accentHex = lc;
+        else if (Array.isArray(lc) && lc.length) accentHex = lc[Math.floor(lc.length / 2)];
+
+        const isDark = CONFIG.theme === 'dark';
+        deriveTheme(accentHex, isDark);
+        document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
+        document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
+
+        // Schemas + name maps
+        const [listingsSchema, zoningSchema] = await Promise.all([
+            felt.getLayerSchema(LISTINGS_LAYER_ID),
+            felt.getLayerSchema(ZONING_LAYER_ID),
+        ]);
+        listingsSchema.attributes.forEach(a => { listingsNameMap[a.id] = a.displayName; });
+        zoningSchema.attributes.forEach(a => { zoningNameMap[a.id] = a.displayName; });
+
+        // Feature count badge — use Listings (primary)
+        const countBadge = document.getElementById('feature-count');
+        const countLabel = document.getElementById('count-label');
+        countBadge.style.display = '';
+        countLabel.textContent = `${listingsSchema.featureCount.toLocaleString()} listings`;
+        document.getElementById('subtitle').textContent = '2 data layers + 2 context';
+        document.getElementById('listings-count').textContent = `${listingsSchema.featureCount.toLocaleString()} features`;
+        document.getElementById('zoning-count').textContent = `${zoningSchema.featureCount.toLocaleString()} features`;
+
+        // ── Build Listings blocks ──
+        const listingsClassified = classifyAttrs(listingsSchema);
+
+        // Stat cards
+        loadListingsStats();
+
+        // Histogram — numeric attrs (skip raw lat/lon which were already filtered out)
+        // Curate numeric list to user-relevant ones
+        const NUMERIC_PRIORITY = ['price','beds','baths','sqft','daysOnZillow','zestimate','rentZestimate','taxAssessedValue','lotAreaValue','totalPhotos'];
+        const histAttrs = NUMERIC_PRIORITY
+            .map(id => listingsClassified.numeric.find(a => a.id === id))
+            .filter(Boolean);
+        // Fallback: include any other numerics
+        listingsClassified.numeric.forEach(a => { if (!histAttrs.find(x => x.id === a.id)) histAttrs.push(a); });
+
+        if (histAttrs.length > 0) {
+            const defaultHistAttr = histAttrs[0].id;
+            initAttributePicker('listings-hist-attr-select', histAttrs, async (newAttr) => {
+                await loadHistogram(LISTINGS_LAYER_ID, 'listings-histogram', {
+                    attrId: newAttr,
+                    nameMap: listingsNameMap,
+                    paintColors: listingsPaintColors,
+                    mapStyledAttr: null  // Listings is simple-styled
+                });
+            }, defaultHistAttr);
+            await loadHistogram(LISTINGS_LAYER_ID, 'listings-histogram', {
+                attrId: defaultHistAttr,
+                nameMap: listingsNameMap,
+                paintColors: listingsPaintColors,
+                mapStyledAttr: null
+            });
+        }
+
+        // Bar chart — text attrs ≤12 unique values (homeType, statusText, city)
+        const TEXT_PRIORITY = ['homeType','statusText','city'];
+        const barAttrs = TEXT_PRIORITY
+            .map(id => listingsClassified.category.find(a => a.id === id))
+            .filter(Boolean);
+
+        if (barAttrs.length > 0) {
+            const defaultBarAttr = barAttrs[0].id;
+            initAttributePicker('listings-bar-attr-select', barAttrs, async (newAttr) => {
+                await loadBarChart(LISTINGS_LAYER_ID, 'listings-bar-chart', {
+                    attrId: newAttr,
+                    nameMap: listingsNameMap,
+                    mapCatColorMap: {},      // Listings is simple-styled
+                    mapStyledAttr: null
+                });
+            }, defaultBarAttr);
+            await loadBarChart(LISTINGS_LAYER_ID, 'listings-bar-chart', {
+                attrId: defaultBarAttr,
+                nameMap: listingsNameMap,
+                mapCatColorMap: {},
+                mapStyledAttr: null
+            });
+        }
+
+        // ── Build Zoning blocks (categorical, derive map color map) ──
+        const zoningStyledAttr = zoningLayer?.style?.config?.categoricalAttribute || null;
+        const zoningPaint = zoningLayer?.style?.paint?.color;
+        const zoningPaintColors = Array.isArray(zoningPaint) ? zoningPaint : [];
+        const zoningCatColorMap = {};
+
+        if (zoningStyledAttr && zoningPaintColors.length > 0) {
+            try {
+                const items = await felt.getLegendItems({ layerIds: [ZONING_LAYER_ID] });
+                items.forEach((item, i) => {
+                    zoningCatColorMap[item.key] = zoningPaintColors[i] || zoningPaintColors[zoningPaintColors.length - 1];
+                });
+            } catch (e) {
+                console.warn('getLegendItems for Zoning failed:', e);
+            }
+        }
+
+        // Zoning bar-chart attribute picker — only zoning_description (8 cats) is bar-friendly,
+        // but include label too as a secondary option (it's high-cardinality but classifyAttrs caught it).
+        const zoningBarAttrs = (zoningStyledAttr
+            ? [zoningSchema.attributes.find(a => a.id === zoningStyledAttr)].filter(Boolean)
+            : []);
+        // Add zoning_description if not already present
+        const zd = zoningSchema.attributes.find(a => a.id === 'zoning_description');
+        if (zd && !zoningBarAttrs.find(a => a.id === zd.id)) zoningBarAttrs.unshift(zd);
+
+        if (zoningBarAttrs.length > 0) {
+            const defaultZoningBar = zoningStyledAttr || zoningBarAttrs[0].id;
+            initAttributePicker('zoning-bar-attr-select', zoningBarAttrs, async (newAttr) => {
+                await loadBarChart(ZONING_LAYER_ID, 'zoning-bar-chart', {
+                    attrId: newAttr,
+                    nameMap: zoningNameMap,
+                    mapCatColorMap: zoningCatColorMap,
+                    mapStyledAttr: zoningStyledAttr
+                });
+            }, defaultZoningBar);
+            await loadBarChart(ZONING_LAYER_ID, 'zoning-bar-chart', {
+                attrId: defaultZoningBar,
+                nameMap: zoningNameMap,
+                mapCatColorMap: zoningCatColorMap,
+                mapStyledAttr: zoningStyledAttr
+            });
+        }
+
+        // Layer toggle, legend, click-to-detail
+        await initLayerToggles('layer-toggles');
+        await loadLegend('legend-container');
         initClickToDetail();
     }
 
