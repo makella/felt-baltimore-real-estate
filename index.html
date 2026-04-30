@@ -142,40 +142,41 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ── Collapsible layer sections ── */
-        .layer-section { margin-bottom: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); overflow: hidden; }
+        .layer-section { margin-bottom: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--card); }
         .layer-section-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 10px 12px; cursor: pointer; user-select: none;
-            background: transparent; transition: background 0.1s;
+            background: transparent; transition: background 0.12s;
         }
         .layer-section-header:hover { background: var(--card-hover); }
-        .layer-section-title { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: -0.005em; }
-        .layer-section-meta { font-size: 11px; color: var(--text-muted); font-weight: 500; font-variant-numeric: tabular-nums; }
-        .layer-section-chevron { transition: transform 0.15s; color: var(--text-muted); }
+        .layer-section-title { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.005em; }
+        .layer-section-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 400; }
+        .layer-section-chevron { width: 14px; height: 14px; color: var(--text-muted); transition: transform 0.18s; flex-shrink: 0; }
         .layer-section[data-collapsed="true"] .layer-section-chevron { transform: rotate(-90deg); }
         .layer-section[data-collapsed="true"] .layer-section-body { display: none; }
-        .layer-section-body { padding: 12px; border-top: 1px solid var(--border); }
-        .layer-section-meta-row { display: flex; align-items: center; gap: 8px; }
+        .layer-section-body { padding: 8px 12px 14px; border-top: 1px solid var(--border); }
 
-        /* ── Stat cards ── */
+        /* ── stat-cards ── */
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
         .stat-card {
-            padding: 10px; border-radius: var(--radius-md);
-            background: var(--card); border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            background: var(--card);
+            border: 1px solid var(--border);
             transition: background 0.12s;
         }
         .stat-card:hover { background: var(--card-hover); }
-        .stat-card.skeleton { min-height: 60px; border-color: transparent; }
-        .stat-value {
-            font-size: 16px; font-weight: 600; color: var(--text);
-            line-height: 1.25; font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+        .stat-card.skeleton {
+            min-height: 68px;
+            border-color: transparent;
+            background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-to) 50%, var(--skeleton-from) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
         }
-        .stat-label {
-            font-size: 10px; font-weight: 500; color: var(--text-muted);
-            margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em;
-        }
+        .stat-value { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.25; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+        .stat-label { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
 
-        /* ── Bar chart ── */
+        /* ── bar-chart ── */
         .bar-chart { display: flex; flex-direction: column; gap: 6px; }
         .bar-row {
             display: flex; align-items: center; gap: 10px;
@@ -188,33 +189,25 @@
         .bar-row.locked .bar-fill { box-shadow: inset 0 0 0 2px var(--accent); }
         .bar-row.locked .bar-label { color: var(--text); font-weight: 600; }
         .bar-label {
-            min-width: 80px; max-width: 110px;
+            min-width: 80px; max-width: 100px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             color: var(--text-secondary); font-weight: 500;
         }
         .bar-track { flex: 1; height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .bar-value {
-            min-width: 40px; text-align: right;
-            color: var(--text-muted); font-size: 11px; font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
+        .bar-value { min-width: 40px; text-align: right; color: var(--text-muted); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-        /* ── Histogram ── */
+        /* ── histogram ── */
         .histogram-wrap { position: relative; }
         .histogram { display: flex; gap: 2px; align-items: flex-end; height: 64px; }
         .hist-bar {
             flex: 1; border-radius: 2px 2px 0 0;
-            cursor: pointer; opacity: 0.8;
+            cursor: pointer; opacity: 0.7;
             transition: opacity 0.12s;
         }
         .hist-bar:hover { opacity: 1; }
         .hist-bar.locked { opacity: 1; box-shadow: inset 0 0 0 2px var(--accent); }
-        .hist-labels {
-            display: flex; justify-content: space-between;
-            margin-top: 4px; font-size: 11px; color: var(--text-muted);
-            font-variant-numeric: tabular-nums;
-        }
+        .hist-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
         .hist-tooltip {
             position: absolute; top: -6px; left: 50%;
             transform: translate(-50%, -100%);
@@ -230,10 +223,7 @@
             border: 4px solid transparent; border-top-color: var(--text);
         }
         .hist-tooltip.visible { opacity: 1; }
-        .hist-filter-hint {
-            font-size: 10px; color: var(--text-muted); text-align: center;
-            margin-top: 2px; opacity: 0; transition: opacity 0.15s;
-        }
+        .hist-filter-hint { font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 2px; opacity: 0; transition: opacity 0.15s; }
         .hist-filter-hint.visible { opacity: 1; }
 
         /* ── attribute-picker ── */
@@ -241,63 +231,35 @@
             padding: 3px 22px 3px 8px;
             font: 500 11px/1.4 'Inter', sans-serif;
             color: var(--text-secondary);
-            background: var(--card);
-            border: 1px solid var(--border);
+            background: var(--card); border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            appearance: none;
-            cursor: pointer;
-            max-width: 50%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            appearance: none; cursor: pointer;
+            max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' fill='%238892A5' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 6px center;
+            background-repeat: no-repeat; background-position: right 6px center;
             transition: border-color 0.12s;
         }
         .section-select:focus { outline: none; border-color: var(--accent); }
 
-        /* ── Layer toggle ── */
-        .layer-toggle-item {
-            display: flex; align-items: center; gap: 8px;
-            padding: 6px 0; font-size: 12px; font-weight: 500;
-            color: var(--text-secondary); cursor: pointer;
-        }
-        .layer-toggle-item input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
-
-        /* ── Legend ── */
+        /* ── legend ── */
         .legend-section { padding: 8px 0; border-top: 1px solid var(--border); }
         .legend-section:first-child { padding-top: 0; border-top: 0; }
         .legend-section:last-child { padding-bottom: 0; }
-
-        .legend-section-header {
-            font-size: 12px; font-weight: 600; color: var(--text);
-            margin-bottom: 6px; letter-spacing: -0.005em;
-        }
-
+        .legend-section-header { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; letter-spacing: -0.005em; }
         .legend-section .legend-row { display: flex; flex-direction: column; gap: 1px; }
-
         .legend-section .legend-item {
-            display: flex; align-items: center; gap: 8px;
-            cursor: pointer; padding: 3px 4px; border-radius: var(--radius-sm);
+            display: flex; flex-direction: row;
+            align-items: center; gap: 8px;
+            cursor: pointer; padding: 3px 4px;
+            border-radius: var(--radius-sm);
             transition: opacity 0.15s, background 0.1s;
             min-width: 0;
         }
         .legend-section .legend-item:hover { background: var(--card-hover); }
         .legend-section .legend-item.hidden { opacity: 0.5; }
-
-        .legend-section .legend-swatch {
-            width: 14px; height: 14px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-        }
+        .legend-section .legend-swatch { width: 14px; height: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
         .legend-section .legend-swatch svg { display: block; }
-
-        .legend-section .legend-label {
-            font-size: 12px; font-weight: 500; color: var(--text-secondary);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            flex: 1;
-        }
-
+        .legend-section .legend-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
         .legend-show-more {
             margin-top: 2px; padding: 4px 6px;
             border: none; background: transparent;
@@ -308,37 +270,31 @@
         .legend-show-more:hover { background: var(--card-hover); color: var(--text-secondary); }
         .legend-show-more .chevron { transition: transform 0.15s; }
         .legend-show-more[data-expanded="true"] .chevron { transform: rotate(180deg); }
+        .legend-gradient-bar { height: 16px; border-radius: 4px; margin: 4px 0 4px; }
+        .legend-gradient-axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
 
-        /* ── Detail panel ── */
-        .detail-panel {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            overflow: hidden; margin-top: 8px;
-            animation: fadeIn 0.15s ease;
+        /* ── layer-toggle ── */
+        .layer-toggle-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 0;
+            font-size: 12px; font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
         }
-        .detail-header {
-            padding: 10px 12px; background: var(--accent-dim);
-            border-bottom: 1px solid var(--border);
-            font-size: 12px; font-weight: 600; color: var(--text);
-        }
-        .detail-rows { padding: 2px 0; }
-        .detail-row {
-            display: flex; justify-content: space-between;
-            padding: 7px 12px; font-size: 12px;
-            border-bottom: 1px solid var(--border);
-            gap: 10px;
-        }
-        .detail-row:last-child { border-bottom: none; }
+        .layer-toggle-item input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+
+        /* ── detail-panel ── */
+        .detail-panel { margin-top: 8px; }
+        .detail-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; letter-spacing: -0.005em; }
+        .detail-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-top: 1px solid var(--border); font-size: 12px; }
+        .detail-row:first-of-type { border-top: 0; }
         .detail-key { color: var(--text-muted); font-weight: 500; flex-shrink: 0; }
-        .detail-val {
-            color: var(--text); font-weight: 600;
-            font-variant-numeric: tabular-nums;
-            text-align: right; word-break: break-word; max-width: 60%;
-        }
+        .detail-val { color: var(--text); font-weight: 500; text-align: right; word-break: break-word; max-width: 60%; font-variant-numeric: tabular-nums; }
+        .detail-empty { color: var(--text-muted); font-size: 12px; padding: 12px 0; }
 
         @media (max-width: 768px) {
-            .pane { top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-width: 100%; height: 60vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
-            #map { bottom: 60vh; }
+            .pane { top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-width: 100%; height: 50vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+            #map { bottom: 50vh; }
         }
     </style>
 </head>
@@ -370,15 +326,16 @@
     <div class="divider"></div>
     <div class="pane-scroll">
         <div class="content" id="content">
-
-            <!-- Listings layer section -->
-            <div class="layer-section" id="listings-section" data-collapsed="false" data-layer-id="heaZARGoShSOpqEHLE8iaB">
-                <div class="layer-section-header" data-toggle="listings-section">
+            <!-- Listings section (primary, expanded) -->
+            <div class="layer-section" id="section-listings" data-collapsed="false">
+                <div class="layer-section-header" data-target="section-listings">
                     <div>
                         <div class="layer-section-title">Listings feed</div>
-                        <div class="layer-section-meta" id="listings-meta">779 features</div>
+                        <div class="layer-section-meta" id="listings-meta">— features</div>
                     </div>
-                    <svg class="layer-section-chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg class="layer-section-chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M3 5l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <div class="layer-section-body">
                     <div class="stat-grid" id="listings-stats">
@@ -403,34 +360,36 @@
                         </div>
                         <div class="histogram-wrap">
                             <div class="hist-tooltip" id="listings-hist-tooltip"></div>
-                            <div class="histogram" id="listings-histogram"></div>
+                            <div class="histogram" id="listings-hist"></div>
                         </div>
                         <div class="hist-labels" id="listings-hist-labels"></div>
-                        <div class="hist-filter-hint" id="listings-hist-filter-hint">Filtering map to this range</div>
+                        <div class="hist-filter-hint">Filtering map to this range</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Zoning layer section (collapsed by default) -->
-            <div class="layer-section" id="zoning-section" data-collapsed="true" data-layer-id="eYIlHMaOS1yhm4u79BtmvfD">
-                <div class="layer-section-header" data-toggle="zoning-section">
+            <!-- Zoning section (secondary, collapsed) -->
+            <div class="layer-section" id="section-zoning" data-collapsed="true">
+                <div class="layer-section-header" data-target="section-zoning">
                     <div>
                         <div class="layer-section-title">Zoning</div>
-                        <div class="layer-section-meta" id="zoning-meta">2,468 features</div>
+                        <div class="layer-section-meta" id="zoning-meta">— features</div>
                     </div>
-                    <svg class="layer-section-chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg class="layer-section-chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M3 5l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <div class="layer-section-body">
                     <div class="section" id="zoning-bar-section" style="display:none">
                         <div class="section-header">
-                            <div class="section-title" id="zoning-bar-title">By Category</div>
+                            <div class="section-title" id="zoning-bar-title">Zoning Description</div>
                         </div>
                         <div class="bar-chart" id="zoning-bar-chart"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Layer toggle -->
+            <!-- Layer toggle (visibility control) -->
             <div class="section" id="layer-toggles-section">
                 <div class="section-title">Layers</div>
                 <div id="layer-toggles"></div>
@@ -443,7 +402,12 @@
             </div>
 
             <!-- Detail panel -->
-            <div id="detail-panel"></div>
+            <div class="section" id="detail-section">
+                <div class="section-title">Feature Details</div>
+                <div class="detail-panel" id="detail-panel">
+                    <div class="detail-empty">Click a feature on the map to see its details.</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -460,11 +424,10 @@
 
     const LISTINGS_LAYER_ID = "heaZARGoShSOpqEHLE8iaB";
     const ZONING_LAYER_ID = "eYIlHMaOS1yhm4u79BtmvfD";
-    const DATA_LAYER_IDS = [LISTINGS_LAYER_ID, ZONING_LAYER_ID];
 
     let felt, allLayers;
-    const nameMaps = {};   // { layerId: { attrId: displayName } }
-    const schemas = {};    // { layerId: schema }
+    let listingsNameMap = {}, zoningNameMap = {};
+    let listingsPaintColors = null;
 
     // ── Color utilities ──
     const _colorCanvas = document.createElement('canvas').getContext('2d');
@@ -481,6 +444,7 @@
             return `#${hex(m[1])}${hex(m[2])}${hex(m[3])}`;
         } catch { return null; }
     }
+
     function normalizePaintColors(paintColor) {
         if (!paintColor) return [];
         if (Array.isArray(paintColor)) return paintColor.map(colorToHex).filter(Boolean);
@@ -488,8 +452,36 @@
         return single ? [single] : [];
     }
 
-    // Geometry-aware swatch SVG: circle for points, stroke for lines, rounded square for polygons.
-    // `geomType` comes from `layer.geometryType` at runtime (camelCase, JS SDK form).
+    // ── Filter composition (gotcha #17) ──
+    // Per-layer dictionary of active filter sources. Every block writes here via composeFilters().
+    // Blocks NEVER call felt.setLayerFilters directly.
+    const _filterSources = new Map();
+
+    async function composeFilters(layerId, sourceKey, filterTuple) {
+        if (!layerId || !sourceKey) return;
+        const sources = _filterSources.get(layerId) || {};
+        if (filterTuple == null) delete sources[sourceKey];
+        else sources[sourceKey] = filterTuple;
+        _filterSources.set(layerId, sources);
+
+        const active = Object.values(sources);
+        let combined;
+        if (active.length === 0) combined = null;
+        else if (active.length === 1) combined = active[0];
+        else combined = active.reduce((acc, f) => [acc, "and", f]);
+
+        try {
+            await felt.setLayerFilters({ layerId, filters: combined });
+        } catch (e) {
+            console.warn(`composeFilters failed for ${layerId}/${sourceKey}:`, e);
+        }
+    }
+
+    async function clearAllFilters(layerId) {
+        _filterSources.set(layerId, {});
+        try { await felt.setLayerFilters({ layerId, filters: null }); } catch (e) {}
+    }
+
     function legendSwatch(color, geomType) {
         const t = (geomType || "").toLowerCase();
         if (t.includes("point")) {
@@ -521,6 +513,7 @@
         }
         return { h: h * 360, s, l };
     }
+
     function luminance(hex) {
         hex = hex.replace('#', '');
         const r = parseInt(hex.substring(0, 2), 16) / 255;
@@ -529,10 +522,12 @@
         const toLinear = c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
         return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
     }
+
     function contrastRatio(hex1, hex2) {
         const l1 = luminance(hex1), l2 = luminance(hex2);
         return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
     }
+
     function darkenHex(hex, amount) {
         hex = hex.replace('#', '');
         const r = Math.max(0, parseInt(hex.substring(0, 2), 16) - amount);
@@ -540,6 +535,7 @@
         const b = Math.max(0, parseInt(hex.substring(4, 6), 16) - amount);
         return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
     }
+
     function lerpColor(colors, t) {
         if (!colors || colors.length < 2) return colors?.[0] || '#6366f1';
         const i = Math.min(Math.floor(t * (colors.length - 1)), colors.length - 2);
@@ -548,6 +544,12 @@
         const [r1,g1,b1] = parse(colors[i]), [r2,g2,b2] = parse(colors[i + 1]);
         const hex = v => Math.round(v).toString(16).padStart(2,'0');
         return `#${hex(r1+f*(r2-r1))}${hex(g1+f*(g2-g1))}${hex(b1+f*(b2-b1))}`;
+    }
+
+    function formatValue(val) {
+        if (val == null) return '—';
+        if (typeof val === 'number') return val.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        return String(val);
     }
 
     // ── Theme engine ──
@@ -563,12 +565,14 @@
         else root.removeAttribute('data-theme');
 
         if (!accentHex) return;
+
         let accent = accentHex;
         if (!isDark) {
             while (contrastRatio(accent, '#FFFFFF') < 3 && accent !== '#000000') {
                 accent = darkenHex(accent, 20);
             }
         }
+
         root.style.setProperty('--accent', accent);
         const hc = accent.replace('#', '');
         const r = parseInt(hc.substring(0, 2), 16);
@@ -576,6 +580,16 @@
         const b = parseInt(hc.substring(4, 6), 16);
         root.style.setProperty('--accent-dim', `rgba(${r},${g},${b},${isDark ? 0.14 : 0.08})`);
         root.style.setProperty('--accent-border', `rgba(${r},${g},${b},${isDark ? 0.28 : 0.20})`);
+
+        if (!isDark) {
+            const { h } = hexToHSL(accentHex);
+            const isWarm = (h >= 0 && h <= 60) || h >= 300;
+            if (isWarm) {
+                root.style.setProperty('--pane-bg', 'rgba(255, 252, 247, 0.85)');
+                root.style.setProperty('--bg-secondary', 'rgba(254, 247, 237, 0.5)');
+                root.style.setProperty('--card', 'rgba(255, 253, 250, 0.5)');
+            }
+        }
     }
 
     function initThemeToggle() {
@@ -597,26 +611,23 @@
     }
 
     // ── Schema helpers ──
-    const SKIP_ATTRS = new Set(['zpid','lat','lon','latitude','longitude','photo','imgurl','image_url','homestatus','detailurl']);
     function classifyAttrs(schema) {
-        const numeric = [], category = [], text = [];
+        const numeric = [], category = [], datetime = [], text = [];
         const epochRe = /^(time|timestamp|updated|created|date|epoch|unix|_at|_ts)$/i;
         for (const a of schema.attributes) {
             const t = (a.type || '').toLowerCase();
-            const idLower = (a.id || '').toLowerCase();
-            if (SKIP_ATTRS.has(idLower) || idLower.includes('photo') || idLower.includes('url')) continue;
             if (['number','numeric','float','integer','double'].includes(t)) {
                 if (!epochRe.test(a.id) && !a.id.endsWith('_at') && !a.id.endsWith('_ts')) numeric.push(a);
             }
+            else if (t === 'datetime' || t === 'date') datetime.push(a);
             else if (t === 'string' || t === 'text') { category.push(a); text.push(a); }
         }
-        return { numeric, category, text };
+        return { numeric, category, datetime, text };
     }
 
     // ── Stat cards ──
-    async function loadStatCards(felt, layerId, containerId, options = {}) {
+    async function loadStatCards(layerId, containerId, numericAttrs, nameMap) {
         const el = document.getElementById(containerId);
-        const { numericAttrs = [] } = options;
         try {
             const calls = [
                 felt.getAggregates({ layerId, aggregation: { methods: ["count"] } })
@@ -626,37 +637,42 @@
                     felt.getAggregates({ layerId, aggregation: { methods: ["avg", "max"], attribute: attr.id } })
                 );
             }
+
             const results = await Promise.allSettled(calls);
             const countResult = results[0].status === "fulfilled" ? results[0].value : {};
 
-            const cards = [{ label: "Total Listings", value: countResult.count != null ? countResult.count.toLocaleString() : "—" }];
+            const cards = [{ label: "Total Features", value: countResult.count != null ? countResult.count.toLocaleString() : "—" }];
             for (let i = 0; i < numericAttrs.slice(0, 3).length; i++) {
                 const r = results[i + 1]?.status === "fulfilled" ? results[i + 1].value : {};
                 const name = numericAttrs[i].displayName;
                 if (i === 0 && r.max != null) {
-                    cards.push({ label: `Max ${name}`, value: r.max.toLocaleString(undefined, { maximumFractionDigits: 0 }) });
+                    cards.push({ label: `Max ${name}`, value: r.max.toLocaleString(undefined, { maximumFractionDigits: 1 }) });
                 }
                 if (r.avg != null) {
-                    cards.push({ label: `Avg ${name}`, value: r.avg.toLocaleString(undefined, { maximumFractionDigits: 0 }) });
+                    cards.push({ label: `Avg ${name}`, value: r.avg.toLocaleString(undefined, { maximumFractionDigits: 1 }) });
                 }
             }
+
             el.innerHTML = cards.slice(0, 4).map(s =>
                 `<div class="stat-card">
                     <div class="stat-value">${s.value}</div>
                     <div class="stat-label">${s.label}</div>
                 </div>`
             ).join("");
+
+            return countResult.count;
         } catch (e) {
-            console.warn("stat cards failed:", e);
-            el.innerHTML = `<div class="stat-card" style="grid-column:1/-1;">Could not load statistics</div>`;
+            el.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">Could not load statistics</div>`;
+            return null;
         }
     }
 
-    // ── Bar chart ──
-    async function loadBarChart(felt, layerId, containerId, options = {}) {
+    // ── Bar chart (with hover-to-filter + click-to-lock, routes through composeFilters) ──
+    async function loadBarChart(layerId, containerId, options = {}) {
         const { attrId, nameMap = {}, mapCatColorMap = {}, mapStyledAttr = null } = options;
+        const section = document.getElementById(containerId).closest(".section") || document.getElementById(containerId).parentElement;
         const el = document.getElementById(containerId);
-        const section = el.closest(".section");
+
         if (!attrId) { section.style.display = "none"; return false; }
 
         const useMapColors = (attrId === mapStyledAttr) && Object.keys(mapCatColorMap).length > 0;
@@ -693,8 +709,10 @@
             const rows = el.querySelectorAll(".bar-row");
             let lockedKey = null;
 
-            const applyFilter = (key) => felt.setLayerFilters({ layerId, filters: [attrId, "eq", key] });
-            const clearFilter = () => felt.setLayerFilters({ layerId, filters: null });
+            // Unique source key per chart instance — prevents collisions on the same layer
+            const filterKey = `bar-chart:${containerId}`;
+            const applyFilter = (key) => composeFilters(layerId, filterKey, [attrId, "eq", key]);
+            const clearFilter = () => composeFilters(layerId, filterKey, null);
 
             rows.forEach(row => {
                 row.addEventListener("mouseenter", () => {
@@ -719,6 +737,7 @@
                     }
                 });
             });
+
             return true;
         } catch (e) {
             console.warn("Bar chart failed:", e);
@@ -727,14 +746,15 @@
         }
     }
 
-    // ── Histogram ──
-    async function loadHistogram(felt, layerId, containerId, options = {}) {
+    // ── Histogram (with hover-to-filter + click-to-lock, routes through composeFilters) ──
+    async function loadHistogram(layerId, containerId, options = {}) {
         const { attrId, nameMap = {}, paintColors = null, mapStyledAttr = null } = options;
         const el = document.getElementById(containerId);
-        const section = el.closest(".section");
-        const labelsEl = section.querySelector(".hist-labels");
+        const section = el.closest(".section") || el.parentElement;
+        const labelsEl = document.getElementById(containerId + "-labels") || section.querySelector(".hist-labels");
 
         if (!attrId) { section.style.display = "none"; return; }
+
         const useMapColors = (attrId === mapStyledAttr) && paintColors?.length >= 2;
 
         try {
@@ -748,18 +768,18 @@
             section.style.display = "";
             const displayName = nameMap[attrId] || attrId;
             const titleEl = section.querySelector(".section-title");
-            if (titleEl) titleEl.textContent = `${displayName} distribution`;
+            if (titleEl) titleEl.textContent = `${displayName} Distribution`;
             const max = Math.max(...bins.map(b => b.value));
 
             el.innerHTML = bins.map((bin, i) => {
                 const pct = max > 0 ? (bin.value / max) * 100 : 0;
                 const t = bins.length > 1 ? i / (bins.length - 1) : 0;
                 const color = useMapColors ? lerpColor(paintColors, t) : "var(--accent)";
-                return `<div class="hist-bar" data-min="${bin.min}" data-max="${bin.max}" style="height:${Math.max(pct, 2)}%;background:${color};"></div>`;
+                return `<div class="hist-bar" data-min="${bin.min}" data-max="${bin.max}" style="height:${Math.max(pct, 2)}%;background:${color};" title="${bin.min.toFixed(1)} – ${bin.max.toFixed(1)}: ${bin.value.toLocaleString()}"></div>`;
             }).join("");
 
             if (labelsEl) {
-                labelsEl.innerHTML = `<span>${bins[0].min.toLocaleString(undefined,{maximumFractionDigits:0})}</span><span>${bins[bins.length - 1].max.toLocaleString(undefined,{maximumFractionDigits:0})}</span>`;
+                labelsEl.innerHTML = `<span>${bins[0].min.toFixed(1)}</span><span>${bins[bins.length - 1].max.toFixed(1)}</span>`;
             }
 
             const bars = el.querySelectorAll(".hist-bar");
@@ -767,17 +787,18 @@
             const hint = section.querySelector(".hist-filter-hint");
             let lockedRange = null;
 
-            const applyFilter = (min, max) => felt.setLayerFilters({
-                layerId, filters: [[attrId, "ge", min], "and", [attrId, "lt", max]]
-            });
-            const clearFilter = () => felt.setLayerFilters({ layerId, filters: null });
+            // Unique source key per histogram instance — siblings can lock independently
+            const filterKey = `histogram:${containerId}`;
+            const applyFilter = (min, max) => composeFilters(layerId, filterKey,
+                [[attrId, "ge", min], "and", [attrId, "lt", max]]);
+            const clearFilter = () => composeFilters(layerId, filterKey, null);
 
             const showTooltip = (bar, min, max) => {
                 if (!tooltip) return;
                 const wrapRect = el.parentElement.getBoundingClientRect();
                 const barRect = bar.getBoundingClientRect();
                 tooltip.style.left = (barRect.left - wrapRect.left + barRect.width / 2) + 'px';
-                tooltip.textContent = `${min.toLocaleString(undefined,{maximumFractionDigits:0})} - ${max.toLocaleString(undefined,{maximumFractionDigits:0})}`;
+                tooltip.textContent = `${min.toFixed(1)} - ${max.toFixed(1)}`;
                 tooltip.classList.add('visible');
             };
             const hideTooltip = () => { if (tooltip) tooltip.classList.remove('visible'); };
@@ -797,6 +818,7 @@
                     if (hint) hint.classList.add('visible');
                     applyFilter(min, max);
                 });
+
                 bar.addEventListener("mouseleave", () => {
                     bars.forEach(b => b.style.opacity = "");
                     hideTooltip();
@@ -804,6 +826,7 @@
                     if (lockedRange) applyFilter(lockedRange.min, lockedRange.max);
                     else clearFilter();
                 });
+
                 bar.addEventListener("click", () => {
                     if (isLocked()) {
                         lockedRange = null;
@@ -824,40 +847,18 @@
     }
 
     // ── Attribute picker ──
-    function initAttributePicker(selectId, attributes, onAttrChange, currentAttrId = null) {
+    function initAttributePicker(selectId, attributes, defaultAttrId, onAttrChange) {
         const select = document.getElementById(selectId);
         select.innerHTML = attributes.map(a =>
-            `<option value="${a.id}" ${a.id === currentAttrId ? "selected" : ""}>${a.displayName}</option>`
+            `<option value="${a.id}" ${a.id === defaultAttrId ? "selected" : ""}>${a.displayName}</option>`
         ).join("");
         select.addEventListener("change", () => onAttrChange(select.value));
     }
 
-    // ── Layer toggle ──
-    async function initLayerToggles(felt, containerId) {
-        const container = document.getElementById(containerId);
-        const layers = await felt.getLayers();
-        const visible = layers.filter(l => l.type !== "raster");
-
-        container.innerHTML = visible.map(l => {
-            return `<label class="layer-toggle-item">
-                <input type="checkbox" data-layer-id="${l.id}" ${l.visible !== false ? "checked" : ""}>
-                ${l.name || "Untitled Layer"}
-            </label>`;
-        }).join("");
-
-        container.querySelectorAll("input[type='checkbox']").forEach(cb => {
-            cb.addEventListener("change", async () => {
-                const layerId = cb.dataset.layerId;
-                await felt.setLayerVisibility(
-                    cb.checked ? { show: [layerId] } : { hide: [layerId] }
-                );
-            });
-        });
-    }
-
-    // ── Legend (single-color collapses to one inline row) ──
+    // ── Legend ──
     const SHOW_MORE_THRESHOLD = 8;
-    async function loadLegend(felt, containerId) {
+
+    async function loadLegend(containerId) {
         const container = document.getElementById(containerId);
         const layers = await felt.getLayers();
         const visibleLayers = layers.filter(l => l.visible !== false && l.style?.paint?.color);
@@ -879,7 +880,6 @@
             const isGradient = vl.style?.type === "numeric" || (vl.style?.config?.numericAttribute && colors.length >= 2);
             const layerLegendItems = allLegendItems.filter(li => li.layerId === vl.id);
 
-            // Continuous gradient legend for numeric-styled layers
             if (isGradient && colors.length >= 2) {
                 const stops = colors.map((c, i) => `${c} ${(i / (colors.length - 1)) * 100}%`).join(", ");
                 const min = vl.style?.config?.min ?? "min";
@@ -891,15 +891,13 @@
                 </div>`;
             }
 
-            // Categorical / discrete legend
             const items = colors.map((c, i) => {
                 const label = labels[String(i)] || categoriesArr[i] || layerLegendItems[i]?.label || "";
                 const legendItemId = layerLegendItems[i]?.id || "";
                 return { color: c, label, legendItemId };
             });
 
-            // SINGLE-COLOR layer (simple-styled): collapse the section into one row "[swatch] [layer name]".
-            // No section-header, no empty per-item label. The layer name IS the label.
+            // Single-color → inline collapsed row (per skill rule)
             if (items.length === 1) {
                 const only = items[0];
                 return `<div class="legend-section legend-section--inline" data-layer-id="${vl.id}">
@@ -910,7 +908,6 @@
                 </div>`;
             }
 
-            // MULTI-COLOR layer (categorical): section-header (layer name) + list of swatch+label rows.
             const renderItem = (it) => `<div class="legend-item" data-layer-id="${vl.id}" data-legend-id="${it.legendItemId}">
                 <div class="legend-swatch">${legendSwatch(it.color, vl.geometryType)}</div>
                 <div class="legend-label" title="${it.label}">${it.label}</div>
@@ -932,7 +929,6 @@
             </div>`;
         }).join("");
 
-        // Wire click-to-toggle on every item
         container.querySelectorAll(".legend-item").forEach(item => {
             item.addEventListener("click", async () => {
                 const legendId = item.dataset.legendId;
@@ -961,153 +957,87 @@
         });
     }
 
-    // ── Detail panel ──
-    function renderDetailPanel(containerId, properties, options = {}) {
-        const { nameMap = {}, title = "Feature Details" } = options;
-        const panel = document.getElementById(containerId);
+    // ── Layer toggle ──
+    async function initLayerToggles(containerId) {
+        const container = document.getElementById(containerId);
+        const layers = await felt.getLayers();
+        const dataLayers = layers.filter(l => l.type !== "raster");
 
-        const SKIP_DETAIL = new Set(['photo', 'imgsrc', 'imgurl', 'image_url', 'detailurl']);
+        container.innerHTML = dataLayers.map(l => {
+            return `<label class="layer-toggle-item">
+                <input type="checkbox" data-layer-id="${l.id}" ${l.visible !== false ? "checked" : ""}>
+                ${l.name || "Untitled Layer"}
+            </label>`;
+        }).join("");
 
-        let rows = "";
-        for (const [key, value] of Object.entries(properties)) {
-            const lower = key.toLowerCase();
-            if (SKIP_DETAIL.has(lower) || lower.includes('photo') || lower.includes('url')) continue;
-            const label = nameMap[key] || key;
-            let display;
-            if (value == null || value === "") display = "—";
-            else if (typeof value === "number") display = value.toLocaleString(undefined, { maximumFractionDigits: 2 });
-            else display = String(value);
-            rows += `<div class="detail-row"><span class="detail-key">${label}</span><span class="detail-val">${display}</span></div>`;
-        }
-
-        panel.innerHTML = `<div class="detail-panel">
-            <div class="detail-header">${title}</div>
-            <div class="detail-rows">${rows}</div>
-        </div>`;
+        container.querySelectorAll("input[type='checkbox']").forEach(cb => {
+            cb.addEventListener("change", async () => {
+                const layerId = cb.dataset.layerId;
+                await felt.setLayerVisibility(
+                    cb.checked ? { show: [layerId] } : { hide: [layerId] }
+                );
+            });
+        });
     }
 
-    function initClickToDetail(felt) {
+    // ── Detail panel (click-to-detail) ──
+    function renderDetailPanel(panelId, properties, opts = {}) {
+        const { nameMap = {}, title = "Feature" } = opts;
+        const panel = document.getElementById(panelId);
+        if (!properties || Object.keys(properties).length === 0) {
+            panel.innerHTML = `<div class="detail-empty">No properties.</div>`;
+            return;
+        }
+
+        const skipKeys = new Set(['zpid', 'lat', 'long', 'longitude', 'latitude', 'photo', 'imgsrc', 'detailurl', 'photourl', 'homestatus']);
+
+        const rows = Object.entries(properties)
+            .filter(([k, v]) => v != null && v !== "" && !skipKeys.has(k.toLowerCase()))
+            .map(([k, v]) => {
+                const label = nameMap[k] || k;
+                let display;
+                if (typeof v === 'number') {
+                    const lk = k.toLowerCase();
+                    if (lk.includes('price') || lk.includes('zestimate') || lk.includes('assess')) {
+                        display = '$' + v.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                    } else {
+                        display = v.toLocaleString(undefined, { maximumFractionDigits: 2 });
+                    }
+                } else {
+                    display = String(v);
+                }
+                return `<div class="detail-row"><div class="detail-key">${label}</div><div class="detail-val">${display}</div></div>`;
+            }).join("");
+
+        panel.innerHTML = `<div class="detail-title">${title}</div>${rows}`;
+    }
+
+    function initClickToDetail() {
         felt.onPointerClick({
             handler: (e) => {
-                const panel = document.getElementById("detail-panel");
-                if (!e.features?.length) { panel.innerHTML = ""; return; }
+                if (!e.features?.length) return;
                 const feature = e.features[0];
                 const layerForFeature = allLayers.find(l => l.id === feature.layerId);
-                const layerNameMap = nameMaps[feature.layerId] || {};
+                let nm = {};
+                if (feature.layerId === LISTINGS_LAYER_ID) nm = listingsNameMap;
+                else if (feature.layerId === ZONING_LAYER_ID) nm = zoningNameMap;
                 renderDetailPanel("detail-panel", feature.properties, {
-                    nameMap: layerNameMap,
+                    nameMap: nm,
                     title: layerForFeature?.name || "Feature Details"
                 });
             }
         });
     }
 
-    // ── Collapsible sections ──
+    // ── Collapsible section toggling ──
     function initCollapsibles() {
-        document.querySelectorAll(".layer-section-header").forEach(header => {
-            header.addEventListener("click", () => {
-                const sec = header.closest(".layer-section");
+        document.querySelectorAll(".layer-section-header").forEach(h => {
+            h.addEventListener("click", () => {
+                const target = h.dataset.target;
+                const sec = document.getElementById(target);
                 const collapsed = sec.dataset.collapsed === "true";
                 sec.dataset.collapsed = String(!collapsed);
             });
-        });
-    }
-
-    // ── Listings layer setup ──
-    async function setupListings() {
-        const layer = allLayers.find(l => l.id === LISTINGS_LAYER_ID);
-        if (!layer) return;
-        const schema = await felt.getLayerSchema(LISTINGS_LAYER_ID);
-        schemas[LISTINGS_LAYER_ID] = schema;
-        const nameMap = {};
-        schema.attributes.forEach(a => { nameMap[a.id] = a.displayName; });
-        nameMaps[LISTINGS_LAYER_ID] = nameMap;
-
-        document.getElementById("listings-meta").textContent = `${schema.featureCount.toLocaleString()} features`;
-
-        const classified = classifyAttrs(schema);
-
-        // Stats: total + 3 numeric attrs
-        await loadStatCards(felt, LISTINGS_LAYER_ID, "listings-stats", { numericAttrs: classified.numeric });
-
-        // Bar-chart: text attrs (Home Type, Status Text, City)
-        const textAttrs = classified.text;
-        if (textAttrs.length > 0) {
-            const initialBarAttr = textAttrs.find(a => /home.?type/i.test(a.id))?.id || textAttrs[0].id;
-            initAttributePicker("listings-bar-attr-select", textAttrs, async (attrId) => {
-                await felt.setLayerFilters({ layerId: LISTINGS_LAYER_ID, filters: null });
-                await loadBarChart(felt, LISTINGS_LAYER_ID, "listings-bar-chart", {
-                    attrId, nameMap,
-                    mapCatColorMap: {}, mapStyledAttr: null
-                });
-            }, initialBarAttr);
-            await loadBarChart(felt, LISTINGS_LAYER_ID, "listings-bar-chart", {
-                attrId: initialBarAttr, nameMap,
-                mapCatColorMap: {}, mapStyledAttr: null
-            });
-        }
-
-        // Histogram: numeric attrs
-        const numericAttrs = classified.numeric;
-        if (numericAttrs.length > 0) {
-            const initialHistAttr = numericAttrs.find(a => /price/i.test(a.id))?.id || numericAttrs[0].id;
-            const layerPaintColors = normalizePaintColors(layer.style?.paint?.color);
-            const histPaintColors = layerPaintColors.length > 0 ? layerPaintColors : null;
-            initAttributePicker("listings-hist-attr-select", numericAttrs, async (attrId) => {
-                await felt.setLayerFilters({ layerId: LISTINGS_LAYER_ID, filters: null });
-                await loadHistogram(felt, LISTINGS_LAYER_ID, "listings-histogram", {
-                    attrId, nameMap, paintColors: histPaintColors, mapStyledAttr: null
-                });
-            }, initialHistAttr);
-            await loadHistogram(felt, LISTINGS_LAYER_ID, "listings-histogram", {
-                attrId: initialHistAttr, nameMap,
-                paintColors: histPaintColors, mapStyledAttr: null
-            });
-        }
-    }
-
-    // ── Zoning layer setup (categorical) ──
-    async function setupZoning() {
-        const layer = allLayers.find(l => l.id === ZONING_LAYER_ID);
-        if (!layer) return;
-        const schema = await felt.getLayerSchema(ZONING_LAYER_ID);
-        schemas[ZONING_LAYER_ID] = schema;
-        const nameMap = {};
-        schema.attributes.forEach(a => { nameMap[a.id] = a.displayName; });
-        nameMaps[ZONING_LAYER_ID] = nameMap;
-
-        document.getElementById("zoning-meta").textContent = `${schema.featureCount.toLocaleString()} features`;
-
-        // Derive mapCatColorMap via Shape 2 (config { count, type } — fetch values from getLegendItems)
-        const mapStyledAttr = layer.style?.config?.categoricalAttribute || null;
-        const paintColors = normalizePaintColors(layer.style?.paint?.color);
-        const cfgCategories = layer.style?.config?.categories;
-        const mapCatColorMap = {};
-
-        if (mapStyledAttr && paintColors.length > 0) {
-            if (Array.isArray(cfgCategories)) {
-                cfgCategories.forEach((cat, i) => {
-                    if (paintColors[i]) mapCatColorMap[cat] = paintColors[i];
-                });
-            } else {
-                try {
-                    const items = await felt.getLegendItems({ layerIds: [ZONING_LAYER_ID] });
-                    items.forEach((item, i) => {
-                        if (item.label && paintColors[i]) {
-                            mapCatColorMap[item.label] = paintColors[i];
-                        }
-                    });
-                } catch (e) {
-                    console.warn("Zoning getLegendItems failed:", e);
-                }
-            }
-        }
-
-        await loadBarChart(felt, ZONING_LAYER_ID, "zoning-bar-chart", {
-            attrId: mapStyledAttr,
-            nameMap,
-            mapCatColorMap,
-            mapStyledAttr
         });
     }
 
@@ -1126,36 +1056,144 @@
         document.title = title;
 
         allLayers = await felt.getLayers();
-        document.getElementById('subtitle').textContent = `${allLayers.length} layers`;
+        const listingsLayer = allLayers.find(l => l.id === LISTINGS_LAYER_ID);
+        const zoningLayer = allLayers.find(l => l.id === ZONING_LAYER_ID);
 
-        // Derive accent from primary (Listings) layer paint
-        const listings = allLayers.find(l => l.id === LISTINGS_LAYER_ID);
-        const listingsPaint = normalizePaintColors(listings?.style?.paint?.color);
-        const accentHex = listingsPaint[Math.floor(listingsPaint.length / 2)] || "#5288c1";
+        // Accent from Listings paint (single color, normalize hsl → hex)
+        listingsPaintColors = normalizePaintColors(listingsLayer?.style?.paint?.color);
+        const accentHex = listingsPaintColors[Math.floor(listingsPaintColors.length / 2)] || null;
+
         const isDark = CONFIG.theme === 'dark';
-        deriveTheme(accentHex, isDark);
+        deriveTheme(accentHex || '#6366f1', isDark);
         document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
         document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
 
-        // Feature count badge - total of data layers
+        document.getElementById('subtitle').textContent = `${allLayers.length} layers`;
+
+        const totalFeatures = (listingsLayer ? 779 : 0) + (zoningLayer ? 2468 : 0);
         const countBadge = document.getElementById('feature-count');
+        const countLabel = document.getElementById('count-label');
         countBadge.style.display = '';
-        document.getElementById('count-label').textContent = `4 layers`;
+        countLabel.textContent = `${totalFeatures.toLocaleString()} features`;
 
-        // Setup data layer sections
-        await Promise.all([setupListings(), setupZoning()]);
+        // Wire layer-toggle, legend, click-to-detail (one-time)
+        await initLayerToggles("layer-toggles");
+        await loadLegend("legend-container");
 
-        // Layer toggle, legend, click-to-detail
-        await initLayerToggles(felt, "layer-toggles");
-        await loadLegend(felt, "legend-container");
-        initClickToDetail(felt);
+        // Activate Listings (primary)
+        if (listingsLayer) await activateListings(listingsLayer);
+        // Activate Zoning (secondary)
+        if (zoningLayer) await activateZoning(zoningLayer);
+
+        initClickToDetail();
     }
 
-    init().catch(err => {
-        console.error("SDK failed:", err);
-        document.getElementById("map").innerHTML =
-            `<p style="padding:40px;color:#6b7280;">Could not load. <a href="https://felt.com/map/${CONFIG.mapId}" target="_blank">View on Felt</a></p>`;
-    });
+    async function activateListings(layer) {
+        const schema = await felt.getLayerSchema(layer.id);
+        listingsNameMap = {};
+        schema.attributes.forEach(a => { listingsNameMap[a.id] = a.displayName; });
+
+        const classified = classifyAttrs(schema);
+        const FALLBACK_COLORS = ["#f7e76e","#f4c94f","#efa835","#e88321","#de581a","#ce141f"];
+        const paintColors = normalizePaintColors(layer.style?.paint?.color);
+        const layerPaintColors = paintColors.length > 0 ? paintColors : FALLBACK_COLORS;
+
+        document.getElementById('listings-meta').textContent = `${schema.featureCount.toLocaleString()} features`;
+
+        // Skip non-decision attrs from picker selection (per pre-inspect notes)
+        const skipIds = new Set(['zpid', 'lat', 'long', 'longitude', 'latitude', 'photo', 'imgsrc', 'detailurl', 'photourl', 'homestatus']);
+        const numericAttrs = classified.numeric.filter(a => !skipIds.has(a.id.toLowerCase()));
+        const textAttrs = classified.category.filter(a => !skipIds.has(a.id.toLowerCase()));
+
+        // Stat cards (Total, Max Price, Avg Price, Avg Sqft) — uses first 3 numeric attrs
+        // Order numeric attrs so price is first (drives Max + Avg cards)
+        const orderedNumeric = [
+            ...numericAttrs.filter(a => /price/i.test(a.id) && !/zestimate|assess/i.test(a.id)),
+            ...numericAttrs.filter(a => /sqft|livingArea/i.test(a.id)),
+            ...numericAttrs.filter(a => !/price|sqft|livingArea/i.test(a.id))
+        ];
+        await loadStatCards(layer.id, "listings-stats", orderedNumeric, listingsNameMap);
+
+        // Listings is simple-styled (no styled categorical attribute) → no mapCatColorMap
+        const listingsBarDefault = textAttrs[0]?.id;
+        if (textAttrs.length > 0) {
+            initAttributePicker("listings-bar-attr-select", textAttrs, listingsBarDefault, async (attrId) => {
+                // On attribute change: clear THIS chart's filter slot before re-rendering
+                await composeFilters(layer.id, "bar-chart:listings-bar-chart", null);
+                await loadBarChart(layer.id, "listings-bar-chart", {
+                    attrId, nameMap: listingsNameMap,
+                    mapCatColorMap: {}, mapStyledAttr: null
+                });
+            });
+            await loadBarChart(layer.id, "listings-bar-chart", {
+                attrId: listingsBarDefault, nameMap: listingsNameMap,
+                mapCatColorMap: {}, mapStyledAttr: null
+            });
+        }
+
+        // Histogram on Price (default), with picker for all numeric attrs
+        const priceAttr = numericAttrs.find(a => a.id === 'price') || numericAttrs[0];
+        const histDefault = priceAttr?.id;
+        if (numericAttrs.length > 0) {
+            initAttributePicker("listings-hist-attr-select", numericAttrs, histDefault, async (attrId) => {
+                await composeFilters(layer.id, "histogram:listings-hist", null);
+                await loadHistogram(layer.id, "listings-hist", {
+                    attrId, nameMap: listingsNameMap,
+                    paintColors: layerPaintColors, mapStyledAttr: null
+                });
+            });
+            await loadHistogram(layer.id, "listings-hist", {
+                attrId: histDefault, nameMap: listingsNameMap,
+                paintColors: layerPaintColors, mapStyledAttr: null
+            });
+        }
+    }
+
+    async function activateZoning(layer) {
+        const schema = await felt.getLayerSchema(layer.id);
+        zoningNameMap = {};
+        schema.attributes.forEach(a => { zoningNameMap[a.id] = a.displayName; });
+
+        document.getElementById('zoning-meta').textContent = `${schema.featureCount.toLocaleString()} features`;
+
+        // Categorical Zoning layer — derive mapCatColorMap (Shape 2: { count, type } config → fetch via getLegendItems)
+        const mapStyledAttr = layer.style?.config?.categoricalAttribute || null;
+        const paintColors = normalizePaintColors(layer.style?.paint?.color);
+        const cfgCategories = layer.style?.config?.categories;
+        const mapCatColorMap = {};
+
+        if (mapStyledAttr && paintColors.length > 0) {
+            if (Array.isArray(cfgCategories)) {
+                cfgCategories.forEach((cat, i) => {
+                    if (paintColors[i]) mapCatColorMap[cat] = paintColors[i];
+                });
+            } else {
+                // Shape 2: fetch live category labels from legend
+                try {
+                    const items = await felt.getLegendItems({ layerIds: [layer.id] });
+                    items.forEach((item, i) => {
+                        if (item.label && paintColors[i]) {
+                            mapCatColorMap[item.label] = paintColors[i];
+                        }
+                    });
+                } catch (e) {
+                    console.warn("getLegendItems for zoning failed:", e);
+                }
+            }
+        }
+
+        // Single fixed bar-chart on the styled attribute (zoning_description)
+        if (mapStyledAttr) {
+            await loadBarChart(layer.id, "zoning-bar-chart", {
+                attrId: mapStyledAttr,
+                nameMap: zoningNameMap,
+                mapCatColorMap,
+                mapStyledAttr
+            });
+        }
+    }
+
+    init();
 </script>
 </body>
 </html>
