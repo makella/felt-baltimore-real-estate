@@ -129,7 +129,41 @@
             text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
         }
         .section-header .section-title { margin-bottom: 0; }
-        .section-header .section-select { max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* Layer collapsible sections */
+        .layer-section {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 14px;
+            overflow: hidden;
+            background: var(--card);
+        }
+        .layer-section-head {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 8px; padding: 10px 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.12s;
+        }
+        .layer-section-head:hover { background: var(--card-hover); }
+        .layer-section-head .ls-title {
+            font-size: 12px; font-weight: 600; color: var(--text);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .layer-section-head .ls-count {
+            font-size: 11px; color: var(--text-muted); font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+        .layer-section-head .ls-chev {
+            transition: transform 0.18s ease;
+            color: var(--text-muted);
+        }
+        .layer-section.collapsed .ls-chev { transform: rotate(-90deg); }
+        .layer-section-body {
+            padding: 12px;
+            border-top: 1px solid var(--border);
+        }
+        .layer-section.collapsed .layer-section-body { display: none; }
 
         .empty-state { text-align: center; padding: 32px 16px; color: var(--text-muted); font-size: 13px; }
 
@@ -141,23 +175,8 @@
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ── Collapsible layer sections ── */
-        .layer-section { margin-bottom: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--card); }
-        .layer-section-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 12px; cursor: pointer; user-select: none;
-            background: transparent; transition: background 0.12s;
-        }
-        .layer-section-header:hover { background: var(--card-hover); }
-        .layer-section-title { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.005em; }
-        .layer-section-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 400; }
-        .layer-section-chevron { width: 14px; height: 14px; color: var(--text-muted); transition: transform 0.18s; flex-shrink: 0; }
-        .layer-section[data-collapsed="true"] .layer-section-chevron { transform: rotate(-90deg); }
-        .layer-section[data-collapsed="true"] .layer-section-body { display: none; }
-        .layer-section-body { padding: 8px 12px 14px; border-top: 1px solid var(--border); }
-
         /* ── stat-cards ── */
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
         .stat-card {
             padding: 12px;
             border-radius: var(--radius-md);
@@ -166,15 +185,37 @@
             transition: background 0.12s;
         }
         .stat-card:hover { background: var(--card-hover); }
-        .stat-card.skeleton {
-            min-height: 68px;
-            border-color: transparent;
-            background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-to) 50%, var(--skeleton-from) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
+        .stat-card.skeleton { min-height: 68px; border-color: transparent; }
+        .stat-value {
+            font-size: 18px; font-weight: 600; color: var(--text);
+            line-height: 1.25; font-variant-numeric: tabular-nums;
+            letter-spacing: -0.01em;
         }
-        .stat-value { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.25; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
-        .stat-label { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .stat-label {
+            font-size: 11px; font-weight: 500; color: var(--text-muted);
+            margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+        }
+
+        /* ── attribute-picker ── */
+        .section-select {
+            padding: 3px 22px 3px 8px;
+            font: 500 11px/1.4 'Inter', sans-serif;
+            color: var(--text-secondary);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            appearance: none;
+            cursor: pointer;
+            max-width: 50%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' fill='%238892A5' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 6px center;
+            transition: border-color 0.12s;
+        }
+        .section-select:focus { outline: none; border-color: var(--accent); }
 
         /* ── bar-chart ── */
         .bar-chart { display: flex; flex-direction: column; gap: 6px; }
@@ -195,7 +236,11 @@
         }
         .bar-track { flex: 1; height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .bar-value { min-width: 40px; text-align: right; color: var(--text-muted); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; }
+        .bar-value {
+            min-width: 40px; text-align: right;
+            color: var(--text-muted); font-size: 11px; font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
 
         /* ── histogram ── */
         .histogram-wrap { position: relative; }
@@ -207,7 +252,11 @@
         }
         .hist-bar:hover { opacity: 1; }
         .hist-bar.locked { opacity: 1; box-shadow: inset 0 0 0 2px var(--accent); }
-        .hist-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+        .hist-labels {
+            display: flex; justify-content: space-between;
+            margin-top: 4px; font-size: 11px;
+            color: var(--text-muted); font-variant-numeric: tabular-nums;
+        }
         .hist-tooltip {
             position: absolute; top: -6px; left: 50%;
             transform: translate(-50%, -100%);
@@ -223,23 +272,19 @@
             border: 4px solid transparent; border-top-color: var(--text);
         }
         .hist-tooltip.visible { opacity: 1; }
-        .hist-filter-hint { font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 2px; opacity: 0; transition: opacity 0.15s; }
+        .hist-filter-hint {
+            font-size: 10px; color: var(--text-muted); text-align: center;
+            margin-top: 2px; opacity: 0; transition: opacity 0.15s;
+        }
         .hist-filter-hint.visible { opacity: 1; }
 
-        /* ── attribute-picker ── */
-        .section-select {
-            padding: 3px 22px 3px 8px;
-            font: 500 11px/1.4 'Inter', sans-serif;
-            color: var(--text-secondary);
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            appearance: none; cursor: pointer;
-            max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' fill='%238892A5' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 6px center;
-            transition: border-color 0.12s;
+        /* ── layer-toggle ── */
+        .layer-toggle-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 0; font-size: 12px; font-weight: 500;
+            color: var(--text-secondary); cursor: pointer;
         }
-        .section-select:focus { outline: none; border-color: var(--accent); }
+        .layer-toggle-item input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
 
         /* ── legend ── */
         .legend-section { padding: 8px 0; border-top: 1px solid var(--border); }
@@ -248,21 +293,24 @@
         .legend-section-header { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; letter-spacing: -0.005em; }
         .legend-section .legend-row { display: flex; flex-direction: column; gap: 1px; }
         .legend-section .legend-item {
-            display: flex; flex-direction: row;
-            align-items: center; gap: 8px;
-            cursor: pointer; padding: 3px 4px;
-            border-radius: var(--radius-sm);
-            transition: opacity 0.15s, background 0.1s;
+            display: flex; flex-direction: row; align-items: center;
+            gap: 8px; cursor: pointer; padding: 3px 4px;
+            border-radius: var(--radius-sm); transition: opacity 0.15s, background 0.1s;
             min-width: 0;
         }
         .legend-section .legend-item:hover { background: var(--card-hover); }
         .legend-section .legend-item.hidden { opacity: 0.5; }
-        .legend-section .legend-swatch { width: 14px; height: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .legend-section .legend-swatch {
+            width: 14px; height: 14px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
         .legend-section .legend-swatch svg { display: block; }
-        .legend-section .legend-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+        .legend-section .legend-label {
+            font-size: 12px; font-weight: 500; color: var(--text-secondary);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;
+        }
         .legend-show-more {
-            margin-top: 2px; padding: 4px 6px;
-            border: none; background: transparent;
+            margin-top: 2px; padding: 4px 6px; border: none; background: transparent;
             color: var(--text-muted); font-size: 11px; font-weight: 500;
             cursor: pointer; border-radius: var(--radius-sm);
             display: flex; align-items: center; gap: 4px;
@@ -271,30 +319,41 @@
         .legend-show-more .chevron { transition: transform 0.15s; }
         .legend-show-more[data-expanded="true"] .chevron { transform: rotate(180deg); }
         .legend-gradient-bar { height: 16px; border-radius: 4px; margin: 4px 0 4px; }
-        .legend-gradient-axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
-
-        /* ── layer-toggle ── */
-        .layer-toggle-item {
-            display: flex; align-items: center; gap: 8px;
-            padding: 6px 0;
-            font-size: 12px; font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
+        .legend-gradient-axis {
+            display: flex; justify-content: space-between;
+            font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums;
         }
-        .layer-toggle-item input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
 
         /* ── detail-panel ── */
-        .detail-panel { margin-top: 8px; }
-        .detail-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; letter-spacing: -0.005em; }
-        .detail-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-top: 1px solid var(--border); font-size: 12px; }
-        .detail-row:first-of-type { border-top: 0; }
+        .detail-panel {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius-md); overflow: hidden;
+            margin-top: 8px; animation: fadeIn 0.15s ease;
+        }
+        .detail-header {
+            padding: 10px 12px; background: var(--accent-dim);
+            border-bottom: 1px solid var(--border);
+            font-size: 12px; font-weight: 600; color: var(--text);
+        }
+        .detail-rows { padding: 2px 0; }
+        .detail-row {
+            display: flex; justify-content: space-between;
+            padding: 7px 12px; font-size: 12px;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
+        }
+        .detail-row:last-child { border-bottom: none; }
         .detail-key { color: var(--text-muted); font-weight: 500; flex-shrink: 0; }
-        .detail-val { color: var(--text); font-weight: 500; text-align: right; word-break: break-word; max-width: 60%; font-variant-numeric: tabular-nums; }
-        .detail-empty { color: var(--text-muted); font-size: 12px; padding: 12px 0; }
+        .detail-val {
+            color: var(--text); font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            text-align: right; word-break: break-word;
+            max-width: 60%;
+        }
 
         @media (max-width: 768px) {
-            .pane { top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-width: 100%; height: 50vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
-            #map { bottom: 50vh; }
+            .pane { top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-width: 100%; height: 55vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+            #map { bottom: 55vh; }
         }
     </style>
 </head>
@@ -326,16 +385,15 @@
     <div class="divider"></div>
     <div class="pane-scroll">
         <div class="content" id="content">
-            <!-- Listings section (primary, expanded) -->
-            <div class="layer-section" id="section-listings" data-collapsed="false">
-                <div class="layer-section-header" data-target="section-listings">
-                    <div>
-                        <div class="layer-section-title">Listings feed</div>
-                        <div class="layer-section-meta" id="listings-meta">— features</div>
+
+            <!-- LISTINGS layer (primary, expanded) -->
+            <div class="layer-section" id="listings-section">
+                <div class="layer-section-head" data-target="listings-section">
+                    <div class="ls-title">
+                        <svg width="10" height="10" viewBox="0 0 10 10" class="ls-chev"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>Listings</span>
                     </div>
-                    <svg class="layer-section-chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
-                        <path d="M3 5l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <span class="ls-count" id="listings-count">--</span>
                 </div>
                 <div class="layer-section-body">
                     <div class="stat-grid" id="listings-stats">
@@ -344,7 +402,6 @@
                         <div class="stat-card skeleton"></div>
                         <div class="stat-card skeleton"></div>
                     </div>
-
                     <div class="section" id="listings-bar-section" style="display:none">
                         <div class="section-header">
                             <div class="section-title" id="listings-bar-title">By Category</div>
@@ -352,7 +409,6 @@
                         </div>
                         <div class="bar-chart" id="listings-bar-chart"></div>
                     </div>
-
                     <div class="section" id="listings-hist-section" style="display:none">
                         <div class="section-header">
                             <div class="section-title" id="listings-hist-title">Distribution</div>
@@ -368,28 +424,31 @@
                 </div>
             </div>
 
-            <!-- Zoning section (secondary, collapsed) -->
-            <div class="layer-section" id="section-zoning" data-collapsed="true">
-                <div class="layer-section-header" data-target="section-zoning">
-                    <div>
-                        <div class="layer-section-title">Zoning</div>
-                        <div class="layer-section-meta" id="zoning-meta">— features</div>
+            <!-- ZONING layer (secondary, collapsed) -->
+            <div class="layer-section collapsed" id="zoning-section">
+                <div class="layer-section-head" data-target="zoning-section">
+                    <div class="ls-title">
+                        <svg width="10" height="10" viewBox="0 0 10 10" class="ls-chev"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>Zoning</span>
                     </div>
-                    <svg class="layer-section-chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
-                        <path d="M3 5l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <span class="ls-count" id="zoning-count">--</span>
                 </div>
                 <div class="layer-section-body">
+                    <div class="stat-grid" id="zoning-stats">
+                        <div class="stat-card skeleton"></div>
+                        <div class="stat-card skeleton"></div>
+                    </div>
                     <div class="section" id="zoning-bar-section" style="display:none">
                         <div class="section-header">
-                            <div class="section-title" id="zoning-bar-title">Zoning Description</div>
+                            <div class="section-title" id="zoning-bar-title">By Category</div>
+                            <select class="section-select" id="zoning-bar-attr-select"></select>
                         </div>
                         <div class="bar-chart" id="zoning-bar-chart"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Layer toggle (visibility control) -->
+            <!-- Layer toggle -->
             <div class="section" id="layer-toggles-section">
                 <div class="section-title">Layers</div>
                 <div id="layer-toggles"></div>
@@ -402,12 +461,7 @@
             </div>
 
             <!-- Detail panel -->
-            <div class="section" id="detail-section">
-                <div class="section-title">Feature Details</div>
-                <div class="detail-panel" id="detail-panel">
-                    <div class="detail-empty">Click a feature on the map to see its details.</div>
-                </div>
-            </div>
+            <div id="detail-panel"></div>
         </div>
     </div>
 </div>
@@ -418,16 +472,18 @@
     const CONFIG = {
         mapId: "jz9BmgQoPQ9BOXNVycYUxUjD",
         feltApiToken: null,
-        theme: "light",
+        theme: "light",   // basemap is "light"
         title: null,
     };
 
-    const LISTINGS_LAYER_ID = "heaZARGoShSOpqEHLE8iaB";
-    const ZONING_LAYER_ID = "eYIlHMaOS1yhm4u79BtmvfD";
+    // Layers (pre-inspected)
+    const LISTINGS_ID = "heaZARGoShSOpqEHLE8iaB";
+    const ZONING_ID = "eYIlHMaOS1yhm4u79BtmvfD";
 
-    let felt, allLayers;
-    let listingsNameMap = {}, zoningNameMap = {};
-    let listingsPaintColors = null;
+    // ID-like fields to skip in numeric attribute pickers
+    const ID_LIKE_NUMERIC = new Set(["zpid", "lat", "lng", "long", "longitude", "latitude"]);
+
+    let felt, allLayers, nameMaps = {};
 
     // ── Color utilities ──
     const _colorCanvas = document.createElement('canvas').getContext('2d');
@@ -453,8 +509,6 @@
     }
 
     // ── Filter composition (gotcha #17) ──
-    // Per-layer dictionary of active filter sources. Every block writes here via composeFilters().
-    // Blocks NEVER call felt.setLayerFilters directly.
     const _filterSources = new Map();
 
     async function composeFilters(layerId, sourceKey, filterTuple) {
@@ -482,6 +536,7 @@
         try { await felt.setLayerFilters({ layerId, filters: null }); } catch (e) {}
     }
 
+    // ── Geometry-aware swatch SVG ──
     function legendSwatch(color, geomType) {
         const t = (geomType || "").toLowerCase();
         if (t.includes("point")) {
@@ -522,12 +577,10 @@
         const toLinear = c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
         return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
     }
-
     function contrastRatio(hex1, hex2) {
         const l1 = luminance(hex1), l2 = luminance(hex2);
         return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
     }
-
     function darkenHex(hex, amount) {
         hex = hex.replace('#', '');
         const r = Math.max(0, parseInt(hex.substring(0, 2), 16) - amount);
@@ -535,7 +588,6 @@
         const b = Math.max(0, parseInt(hex.substring(4, 6), 16) - amount);
         return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
     }
-
     function lerpColor(colors, t) {
         if (!colors || colors.length < 2) return colors?.[0] || '#6366f1';
         const i = Math.min(Math.floor(t * (colors.length - 1)), colors.length - 2);
@@ -550,6 +602,13 @@
         if (val == null) return '—';
         if (typeof val === 'number') return val.toLocaleString(undefined, { maximumFractionDigits: 2 });
         return String(val);
+    }
+
+    function formatCurrency(val) {
+        if (val == null) return '—';
+        if (val >= 1_000_000) return '$' + (val / 1_000_000).toFixed(2) + 'M';
+        if (val >= 1_000) return '$' + (val / 1_000).toFixed(0) + 'k';
+        return '$' + Math.round(val).toLocaleString();
     }
 
     // ── Theme engine ──
@@ -580,16 +639,6 @@
         const b = parseInt(hc.substring(4, 6), 16);
         root.style.setProperty('--accent-dim', `rgba(${r},${g},${b},${isDark ? 0.14 : 0.08})`);
         root.style.setProperty('--accent-border', `rgba(${r},${g},${b},${isDark ? 0.28 : 0.20})`);
-
-        if (!isDark) {
-            const { h } = hexToHSL(accentHex);
-            const isWarm = (h >= 0 && h <= 60) || h >= 300;
-            if (isWarm) {
-                root.style.setProperty('--pane-bg', 'rgba(255, 252, 247, 0.85)');
-                root.style.setProperty('--bg-secondary', 'rgba(254, 247, 237, 0.5)');
-                root.style.setProperty('--card', 'rgba(255, 253, 250, 0.5)');
-            }
-        }
     }
 
     function initThemeToggle() {
@@ -625,53 +674,85 @@
         return { numeric, category, datetime, text };
     }
 
+    // ── Picker eligibility (THE FIX, gotcha #13) ──
+    //
+    // Bar-chart needs text attrs with 2 <= unique values <= 30. Picking textAttrs[0] blindly
+    // often grabs `address` (779 values) and the chart silently hides. Filter candidates
+    // by cardinality at runtime via getCategoryData().length.
+    //
+    // We pre-fetch each candidate's category data once during init so the picker dropdown
+    // and the default attr both reflect actual cardinality. We return:
+    //   - eligible: array of { attr, count } sorted by ascending count (lowest = best default)
+    //   - default:  the lowest-cardinality eligible attr, or null
+    async function getEligibleBarChartAttrs(layerId, textAttrs) {
+        const results = await Promise.all(
+            textAttrs.map(async (attr) => {
+                try {
+                    const data = await felt.getCategoryData({ layerId, attribute: attr.id });
+                    const count = (data || []).length;
+                    return { attr, count };
+                } catch (e) {
+                    return { attr, count: 0 };
+                }
+            })
+        );
+        // Eligibility: 2 <= count <= 30. Excludes high-cardinality (address=779, brokerName=155)
+        // AND single-value attrs (homeStatus=1, not chartable).
+        const eligible = results
+            .filter(r => r.count >= 2 && r.count <= 30)
+            .sort((a, b) => a.count - b.count);
+        return {
+            eligible,
+            default: eligible[0]?.attr || null,
+        };
+    }
+
+    // Histogram needs numeric attrs but should skip ID-like fields (zpid, lat, long, etc.).
+    function getEligibleHistogramAttrs(numericAttrs, defaultPreference = null) {
+        const eligible = numericAttrs.filter(a => !ID_LIKE_NUMERIC.has(a.id.toLowerCase()));
+        let def = null;
+        if (defaultPreference) def = eligible.find(a => a.id === defaultPreference) || null;
+        if (!def) def = eligible[0] || null;
+        return { eligible, default: def };
+    }
+
     // ── Stat cards ──
-    async function loadStatCards(layerId, containerId, numericAttrs, nameMap) {
+    async function loadStatCards(layerId, containerId, options = {}) {
         const el = document.getElementById(containerId);
+        const { metrics = [] } = options;
+        // metrics: [{ label, kind: "count" | "avg" | "max" | "min", attrId?, format? }]
         try {
-            const calls = [
-                felt.getAggregates({ layerId, aggregation: { methods: ["count"] } })
-            ];
-            for (const attr of numericAttrs.slice(0, 3)) {
-                calls.push(
-                    felt.getAggregates({ layerId, aggregation: { methods: ["avg", "max"], attribute: attr.id } })
-                );
-            }
-
+            const calls = metrics.map(m => {
+                if (m.kind === "count") {
+                    return felt.getAggregates({ layerId, aggregation: { methods: ["count"] } });
+                }
+                return felt.getAggregates({ layerId, aggregation: { methods: [m.kind], attribute: m.attrId } });
+            });
             const results = await Promise.allSettled(calls);
-            const countResult = results[0].status === "fulfilled" ? results[0].value : {};
-
-            const cards = [{ label: "Total Features", value: countResult.count != null ? countResult.count.toLocaleString() : "—" }];
-            for (let i = 0; i < numericAttrs.slice(0, 3).length; i++) {
-                const r = results[i + 1]?.status === "fulfilled" ? results[i + 1].value : {};
-                const name = numericAttrs[i].displayName;
-                if (i === 0 && r.max != null) {
-                    cards.push({ label: `Max ${name}`, value: r.max.toLocaleString(undefined, { maximumFractionDigits: 1 }) });
-                }
-                if (r.avg != null) {
-                    cards.push({ label: `Avg ${name}`, value: r.avg.toLocaleString(undefined, { maximumFractionDigits: 1 }) });
-                }
-            }
-
+            const cards = results.map((r, i) => {
+                const m = metrics[i];
+                if (r.status !== "fulfilled") return { label: m.label, value: '—' };
+                const v = r.value[m.kind];
+                if (v == null) return { label: m.label, value: '—' };
+                const formatter = m.format || formatValue;
+                return { label: m.label, value: formatter(v) };
+            });
             el.innerHTML = cards.slice(0, 4).map(s =>
                 `<div class="stat-card">
                     <div class="stat-value">${s.value}</div>
                     <div class="stat-label">${s.label}</div>
                 </div>`
             ).join("");
-
-            return countResult.count;
         } catch (e) {
-            el.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">Could not load statistics</div>`;
-            return null;
+            el.innerHTML = `<div class="stat-card" style="grid-column:1/-1;">Could not load stats</div>`;
         }
     }
 
-    // ── Bar chart (with hover-to-filter + click-to-lock, routes through composeFilters) ──
+    // ── Bar chart (canonical from blocks-data.md) ──
     async function loadBarChart(layerId, containerId, options = {}) {
         const { attrId, nameMap = {}, mapCatColorMap = {}, mapStyledAttr = null } = options;
-        const section = document.getElementById(containerId).closest(".section") || document.getElementById(containerId).parentElement;
         const el = document.getElementById(containerId);
+        const section = el.closest(".section") || el.parentElement;
 
         if (!attrId) { section.style.display = "none"; return false; }
 
@@ -706,10 +787,10 @@
                 </div>`;
             }).join("");
 
+            // Hover-to-filter + click-to-lock (per-chart lock state, unique source key)
             const rows = el.querySelectorAll(".bar-row");
             let lockedKey = null;
 
-            // Unique source key per chart instance — prevents collisions on the same layer
             const filterKey = `bar-chart:${containerId}`;
             const applyFilter = (key) => composeFilters(layerId, filterKey, [attrId, "eq", key]);
             const clearFilter = () => composeFilters(layerId, filterKey, null);
@@ -746,12 +827,11 @@
         }
     }
 
-    // ── Histogram (with hover-to-filter + click-to-lock, routes through composeFilters) ──
+    // ── Histogram (canonical) ──
     async function loadHistogram(layerId, containerId, options = {}) {
         const { attrId, nameMap = {}, paintColors = null, mapStyledAttr = null } = options;
         const el = document.getElementById(containerId);
         const section = el.closest(".section") || el.parentElement;
-        const labelsEl = document.getElementById(containerId + "-labels") || section.querySelector(".hist-labels");
 
         if (!attrId) { section.style.display = "none"; return; }
 
@@ -778,6 +858,7 @@
                 return `<div class="hist-bar" data-min="${bin.min}" data-max="${bin.max}" style="height:${Math.max(pct, 2)}%;background:${color};" title="${bin.min.toFixed(1)} – ${bin.max.toFixed(1)}: ${bin.value.toLocaleString()}"></div>`;
             }).join("");
 
+            const labelsEl = document.getElementById(containerId + "-labels");
             if (labelsEl) {
                 labelsEl.innerHTML = `<span>${bins[0].min.toFixed(1)}</span><span>${bins[bins.length - 1].max.toFixed(1)}</span>`;
             }
@@ -787,7 +868,6 @@
             const hint = section.querySelector(".hist-filter-hint");
             let lockedRange = null;
 
-            // Unique source key per histogram instance — siblings can lock independently
             const filterKey = `histogram:${containerId}`;
             const applyFilter = (min, max) => composeFilters(layerId, filterKey,
                 [[attrId, "ge", min], "and", [attrId, "lt", max]]);
@@ -846,8 +926,8 @@
         }
     }
 
-    // ── Attribute picker ──
-    function initAttributePicker(selectId, attributes, defaultAttrId, onAttrChange) {
+    // ── attribute-picker ──
+    function initAttributePicker(selectId, attributes, onAttrChange, defaultAttrId = null) {
         const select = document.getElementById(selectId);
         select.innerHTML = attributes.map(a =>
             `<option value="${a.id}" ${a.id === defaultAttrId ? "selected" : ""}>${a.displayName}</option>`
@@ -855,9 +935,31 @@
         select.addEventListener("change", () => onAttrChange(select.value));
     }
 
-    // ── Legend ──
-    const SHOW_MORE_THRESHOLD = 8;
+    // ── layer-toggle ──
+    async function initLayerToggles(containerId) {
+        const container = document.getElementById(containerId);
+        const layers = await felt.getLayers();
+        const dataLayers = layers.filter(l => l.type !== "raster");
 
+        container.innerHTML = dataLayers.map(l =>
+            `<label class="layer-toggle-item">
+                <input type="checkbox" data-layer-id="${l.id}" ${l.visible !== false ? "checked" : ""}>
+                ${l.name || "Untitled Layer"}
+            </label>`
+        ).join("");
+
+        container.querySelectorAll("input[type='checkbox']").forEach(cb => {
+            cb.addEventListener("change", async () => {
+                const layerId = cb.dataset.layerId;
+                await felt.setLayerVisibility(
+                    cb.checked ? { show: [layerId] } : { hide: [layerId] }
+                );
+            });
+        });
+    }
+
+    // ── legend (canonical) ──
+    const SHOW_MORE_THRESHOLD = 8;
     async function loadLegend(containerId) {
         const container = document.getElementById(containerId);
         const layers = await felt.getLayers();
@@ -897,7 +999,7 @@
                 return { color: c, label, legendItemId };
             });
 
-            // Single-color → inline collapsed row (per skill rule)
+            // Single-color layers collapse to one inline row
             if (items.length === 1) {
                 const only = items[0];
                 return `<div class="legend-section legend-section--inline" data-layer-id="${vl.id}">
@@ -957,94 +1059,209 @@
         });
     }
 
-    // ── Layer toggle ──
-    async function initLayerToggles(containerId) {
-        const container = document.getElementById(containerId);
-        const layers = await felt.getLayers();
-        const dataLayers = layers.filter(l => l.type !== "raster");
+    // ── detail-panel + click-to-detail ──
+    function renderDetailPanel(containerId, properties, options = {}) {
+        const { nameMap = {}, title = "Feature Details" } = options;
+        const panel = document.getElementById(containerId);
 
-        container.innerHTML = dataLayers.map(l => {
-            return `<label class="layer-toggle-item">
-                <input type="checkbox" data-layer-id="${l.id}" ${l.visible !== false ? "checked" : ""}>
-                ${l.name || "Untitled Layer"}
-            </label>`;
-        }).join("");
-
-        container.querySelectorAll("input[type='checkbox']").forEach(cb => {
-            cb.addEventListener("change", async () => {
-                const layerId = cb.dataset.layerId;
-                await felt.setLayerVisibility(
-                    cb.checked ? { show: [layerId] } : { hide: [layerId] }
-                );
-            });
-        });
-    }
-
-    // ── Detail panel (click-to-detail) ──
-    function renderDetailPanel(panelId, properties, opts = {}) {
-        const { nameMap = {}, title = "Feature" } = opts;
-        const panel = document.getElementById(panelId);
-        if (!properties || Object.keys(properties).length === 0) {
-            panel.innerHTML = `<div class="detail-empty">No properties.</div>`;
-            return;
+        let rows = "";
+        for (const [key, value] of Object.entries(properties)) {
+            const label = nameMap[key] || key;
+            let display;
+            if (value == null) display = "—";
+            else if (typeof value === "number") display = value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            else display = String(value);
+            rows += `<div class="detail-row"><span class="detail-key">${label}</span><span class="detail-val">${display}</span></div>`;
         }
 
-        const skipKeys = new Set(['zpid', 'lat', 'long', 'longitude', 'latitude', 'photo', 'imgsrc', 'detailurl', 'photourl', 'homestatus']);
-
-        const rows = Object.entries(properties)
-            .filter(([k, v]) => v != null && v !== "" && !skipKeys.has(k.toLowerCase()))
-            .map(([k, v]) => {
-                const label = nameMap[k] || k;
-                let display;
-                if (typeof v === 'number') {
-                    const lk = k.toLowerCase();
-                    if (lk.includes('price') || lk.includes('zestimate') || lk.includes('assess')) {
-                        display = '$' + v.toLocaleString(undefined, { maximumFractionDigits: 0 });
-                    } else {
-                        display = v.toLocaleString(undefined, { maximumFractionDigits: 2 });
-                    }
-                } else {
-                    display = String(v);
-                }
-                return `<div class="detail-row"><div class="detail-key">${label}</div><div class="detail-val">${display}</div></div>`;
-            }).join("");
-
-        panel.innerHTML = `<div class="detail-title">${title}</div>${rows}`;
+        panel.innerHTML = `<div class="detail-panel">
+            <div class="detail-header">${title}</div>
+            <div class="detail-rows">${rows}</div>
+        </div>`;
     }
 
     function initClickToDetail() {
         felt.onPointerClick({
             handler: (e) => {
-                if (!e.features?.length) return;
+                const panel = document.getElementById("detail-panel");
+                if (!e.features?.length) { panel.innerHTML = ""; return; }
                 const feature = e.features[0];
                 const layerForFeature = allLayers.find(l => l.id === feature.layerId);
-                let nm = {};
-                if (feature.layerId === LISTINGS_LAYER_ID) nm = listingsNameMap;
-                else if (feature.layerId === ZONING_LAYER_ID) nm = zoningNameMap;
+                const nameMap = nameMaps[feature.layerId] || {};
                 renderDetailPanel("detail-panel", feature.properties, {
-                    nameMap: nm,
+                    nameMap,
                     title: layerForFeature?.name || "Feature Details"
                 });
             }
         });
     }
 
-    // ── Collapsible section toggling ──
-    function initCollapsibles() {
-        document.querySelectorAll(".layer-section-header").forEach(h => {
-            h.addEventListener("click", () => {
-                const target = h.dataset.target;
-                const sec = document.getElementById(target);
-                const collapsed = sec.dataset.collapsed === "true";
-                sec.dataset.collapsed = String(!collapsed);
+    // ── Collapsible sections wiring ──
+    function initCollapsibleSections() {
+        document.querySelectorAll(".layer-section-head").forEach(head => {
+            head.addEventListener("click", () => {
+                const target = head.dataset.target;
+                document.getElementById(target)?.classList.toggle("collapsed");
             });
         });
+    }
+
+    // ── Build Listings section ──
+    async function buildListingsSection(layer) {
+        const layerId = layer.id;
+        const schema = await felt.getLayerSchema(layerId);
+        const nameMap = {};
+        schema.attributes.forEach(a => { nameMap[a.id] = a.displayName; });
+        nameMaps[layerId] = nameMap;
+
+        document.getElementById("listings-count").textContent = `${schema.featureCount.toLocaleString()} features`;
+
+        const classified = classifyAttrs(schema);
+
+        // Stat cards: count, avg price, max price, avg sqft
+        const priceAttr = classified.numeric.find(a => a.id === "price");
+        const sqftAttr = classified.numeric.find(a => a.id === "sqft" || a.id === "livingArea");
+        const metrics = [{ label: "Listings", kind: "count" }];
+        if (priceAttr) metrics.push({ label: "Avg Price", kind: "avg", attrId: priceAttr.id, format: formatCurrency });
+        if (priceAttr) metrics.push({ label: "Max Price", kind: "max", attrId: priceAttr.id, format: formatCurrency });
+        if (sqftAttr) metrics.push({ label: "Avg Sqft", kind: "avg", attrId: sqftAttr.id, format: (v) => Math.round(v).toLocaleString() });
+        await loadStatCards(layerId, "listings-stats", { metrics });
+
+        // ── Bar-chart picker eligibility (THE FIX) ──
+        // Filter text attrs by cardinality (2..30 unique values). For Listings, this excludes:
+        //   - address (779)        : too many to chart, would silently hide
+        //   - brokerName (155)     : too many
+        //   - homeStatus (1)       : not chartable (single value)
+        // Keeps: homeType (4), city (4), statusText (9). Default = homeType (lowest cardinality).
+        const { eligible: eligibleBarAttrs, default: defaultBarAttr } =
+            await getEligibleBarChartAttrs(layerId, classified.text);
+
+        // Listings is simple-styled (single accent), no mapCatColorMap.
+        const mapCatColorMap = {};
+        const mapStyledAttrCat = null;
+
+        if (defaultBarAttr) {
+            initAttributePicker(
+                "listings-bar-attr-select",
+                eligibleBarAttrs.map(e => e.attr),
+                async (newAttrId) => {
+                    await composeFilters(layerId, "bar-chart:listings-bar-chart", null);
+                    await loadBarChart(layerId, "listings-bar-chart", {
+                        attrId: newAttrId, nameMap, mapCatColorMap, mapStyledAttr: mapStyledAttrCat
+                    });
+                },
+                defaultBarAttr.id
+            );
+            await loadBarChart(layerId, "listings-bar-chart", {
+                attrId: defaultBarAttr.id, nameMap, mapCatColorMap, mapStyledAttr: mapStyledAttrCat
+            });
+        } else {
+            document.getElementById("listings-bar-section").style.display = "none";
+        }
+
+        // ── Histogram picker (skip ID-like fields, default to price) ──
+        const { eligible: eligibleHistAttrs, default: defaultHistAttr } =
+            getEligibleHistogramAttrs(classified.numeric, "price");
+
+        if (defaultHistAttr) {
+            initAttributePicker(
+                "listings-hist-attr-select",
+                eligibleHistAttrs,
+                async (newAttrId) => {
+                    await composeFilters(layerId, "histogram:listings-hist", null);
+                    await loadHistogram(layerId, "listings-hist", {
+                        attrId: newAttrId, nameMap, paintColors: null, mapStyledAttr: null
+                    });
+                },
+                defaultHistAttr.id
+            );
+            await loadHistogram(layerId, "listings-hist", {
+                attrId: defaultHistAttr.id, nameMap, paintColors: null, mapStyledAttr: null
+            });
+        } else {
+            document.getElementById("listings-hist-section").style.display = "none";
+        }
+    }
+
+    // ── Build Zoning section ──
+    async function buildZoningSection(layer) {
+        const layerId = layer.id;
+        const schema = await felt.getLayerSchema(layerId);
+        const nameMap = {};
+        schema.attributes.forEach(a => { nameMap[a.id] = a.displayName; });
+        nameMaps[layerId] = nameMap;
+
+        document.getElementById("zoning-count").textContent = `${schema.featureCount.toLocaleString()} features`;
+
+        const classified = classifyAttrs(schema);
+
+        // Simple stats — just counts, no obvious numeric metric here
+        await loadStatCards(layerId, "zoning-stats", {
+            metrics: [{ label: "Zoning Polygons", kind: "count" }]
+        });
+
+        // ── Categorical color map (Shape 2: { count, type } config) ──
+        // Zoning uses paint.color = "@catPalette3" + categories: { count: 10, type: "top" }.
+        // We resolve actual category values from the legend at runtime.
+        const mapStyledAttrCat = layer.style?.config?.categoricalAttribute || null;
+        const paintColors = normalizePaintColors(layer.style?.paint?.color);
+        const cfgCategories = layer.style?.config?.categories;
+        const mapCatColorMap = {};
+
+        if (mapStyledAttrCat && paintColors.length > 0) {
+            if (Array.isArray(cfgCategories)) {
+                cfgCategories.forEach((cat, i) => {
+                    if (paintColors[i]) mapCatColorMap[cat] = paintColors[i];
+                });
+            } else {
+                try {
+                    const items = await felt.getLegendItems({ layerIds: [layerId] });
+                    items.forEach((item, i) => {
+                        if (item.label && paintColors[i]) {
+                            mapCatColorMap[item.label] = paintColors[i];
+                        }
+                    });
+                } catch (e) {
+                    console.warn("getLegendItems failed for zoning:", e);
+                }
+            }
+        }
+
+        // Bar-chart picker eligibility for Zoning (filter to 2..30 unique).
+        const { eligible: eligibleBarAttrs, default: cardinalityDefault } =
+            await getEligibleBarChartAttrs(layerId, classified.text);
+
+        // Prefer the styled attr (zoning_description) as default if eligible.
+        let defaultBarAttr = cardinalityDefault;
+        if (mapStyledAttrCat) {
+            const styled = eligibleBarAttrs.find(e => e.attr.id === mapStyledAttrCat);
+            if (styled) defaultBarAttr = styled.attr;
+        }
+
+        if (defaultBarAttr) {
+            initAttributePicker(
+                "zoning-bar-attr-select",
+                eligibleBarAttrs.map(e => e.attr),
+                async (newAttrId) => {
+                    await composeFilters(layerId, "bar-chart:zoning-bar-chart", null);
+                    await loadBarChart(layerId, "zoning-bar-chart", {
+                        attrId: newAttrId, nameMap, mapCatColorMap, mapStyledAttr: mapStyledAttrCat
+                    });
+                },
+                defaultBarAttr.id
+            );
+            await loadBarChart(layerId, "zoning-bar-chart", {
+                attrId: defaultBarAttr.id, nameMap, mapCatColorMap, mapStyledAttr: mapStyledAttrCat
+            });
+        } else {
+            document.getElementById("zoning-bar-section").style.display = "none";
+        }
     }
 
     // ── Init ──
     async function init() {
         initThemeToggle();
-        initCollapsibles();
+        initCollapsibleSections();
 
         felt = await Felt.embed(document.getElementById('map'), CONFIG.mapId, {
             uiControls: { showLegend: false, cooperativeGestures: false }
@@ -1054,146 +1271,43 @@
         const title = CONFIG.title || details.title || 'Baltimore Real Estate';
         document.getElementById('title').textContent = title;
         document.title = title;
+        document.getElementById('subtitle').textContent = "Listings & zoning explorer";
 
         allLayers = await felt.getLayers();
-        const listingsLayer = allLayers.find(l => l.id === LISTINGS_LAYER_ID);
-        const zoningLayer = allLayers.find(l => l.id === ZONING_LAYER_ID);
 
-        // Accent from Listings paint (single color, normalize hsl → hex)
-        listingsPaintColors = normalizePaintColors(listingsLayer?.style?.paint?.color);
-        const accentHex = listingsPaintColors[Math.floor(listingsPaintColors.length / 2)] || null;
-
+        // Theme: basemap is "light"
         const isDark = CONFIG.theme === 'dark';
-        deriveTheme(accentHex || '#6366f1', isDark);
+        const listingsLayer = allLayers.find(l => l.id === LISTINGS_ID);
+        const accentHex = normalizePaintColors(listingsLayer?.style?.paint?.color)[0] || '#3a78c8';
+        deriveTheme(accentHex, isDark);
         document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
         document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
 
-        document.getElementById('subtitle').textContent = `${allLayers.length} layers`;
-
-        const totalFeatures = (listingsLayer ? 779 : 0) + (zoningLayer ? 2468 : 0);
+        // Total feature count badge (sum of data layers)
         const countBadge = document.getElementById('feature-count');
         const countLabel = document.getElementById('count-label');
         countBadge.style.display = '';
-        countLabel.textContent = `${totalFeatures.toLocaleString()} features`;
+        countLabel.textContent = `2 layers`;
 
-        // Wire layer-toggle, legend, click-to-detail (one-time)
+        // Build sections in parallel
+        const tasks = [];
+        if (listingsLayer) tasks.push(buildListingsSection(listingsLayer));
+        const zoningLayer = allLayers.find(l => l.id === ZONING_ID);
+        if (zoningLayer) tasks.push(buildZoningSection(zoningLayer));
+
+        await Promise.all(tasks);
+
+        // Layer toggle, legend, click-to-detail
         await initLayerToggles("layer-toggles");
         await loadLegend("legend-container");
-
-        // Activate Listings (primary)
-        if (listingsLayer) await activateListings(listingsLayer);
-        // Activate Zoning (secondary)
-        if (zoningLayer) await activateZoning(zoningLayer);
-
         initClickToDetail();
     }
 
-    async function activateListings(layer) {
-        const schema = await felt.getLayerSchema(layer.id);
-        listingsNameMap = {};
-        schema.attributes.forEach(a => { listingsNameMap[a.id] = a.displayName; });
-
-        const classified = classifyAttrs(schema);
-        const FALLBACK_COLORS = ["#f7e76e","#f4c94f","#efa835","#e88321","#de581a","#ce141f"];
-        const paintColors = normalizePaintColors(layer.style?.paint?.color);
-        const layerPaintColors = paintColors.length > 0 ? paintColors : FALLBACK_COLORS;
-
-        document.getElementById('listings-meta').textContent = `${schema.featureCount.toLocaleString()} features`;
-
-        // Skip non-decision attrs from picker selection (per pre-inspect notes)
-        const skipIds = new Set(['zpid', 'lat', 'long', 'longitude', 'latitude', 'photo', 'imgsrc', 'detailurl', 'photourl', 'homestatus']);
-        const numericAttrs = classified.numeric.filter(a => !skipIds.has(a.id.toLowerCase()));
-        const textAttrs = classified.category.filter(a => !skipIds.has(a.id.toLowerCase()));
-
-        // Stat cards (Total, Max Price, Avg Price, Avg Sqft) — uses first 3 numeric attrs
-        // Order numeric attrs so price is first (drives Max + Avg cards)
-        const orderedNumeric = [
-            ...numericAttrs.filter(a => /price/i.test(a.id) && !/zestimate|assess/i.test(a.id)),
-            ...numericAttrs.filter(a => /sqft|livingArea/i.test(a.id)),
-            ...numericAttrs.filter(a => !/price|sqft|livingArea/i.test(a.id))
-        ];
-        await loadStatCards(layer.id, "listings-stats", orderedNumeric, listingsNameMap);
-
-        // Listings is simple-styled (no styled categorical attribute) → no mapCatColorMap
-        const listingsBarDefault = textAttrs[0]?.id;
-        if (textAttrs.length > 0) {
-            initAttributePicker("listings-bar-attr-select", textAttrs, listingsBarDefault, async (attrId) => {
-                // On attribute change: clear THIS chart's filter slot before re-rendering
-                await composeFilters(layer.id, "bar-chart:listings-bar-chart", null);
-                await loadBarChart(layer.id, "listings-bar-chart", {
-                    attrId, nameMap: listingsNameMap,
-                    mapCatColorMap: {}, mapStyledAttr: null
-                });
-            });
-            await loadBarChart(layer.id, "listings-bar-chart", {
-                attrId: listingsBarDefault, nameMap: listingsNameMap,
-                mapCatColorMap: {}, mapStyledAttr: null
-            });
-        }
-
-        // Histogram on Price (default), with picker for all numeric attrs
-        const priceAttr = numericAttrs.find(a => a.id === 'price') || numericAttrs[0];
-        const histDefault = priceAttr?.id;
-        if (numericAttrs.length > 0) {
-            initAttributePicker("listings-hist-attr-select", numericAttrs, histDefault, async (attrId) => {
-                await composeFilters(layer.id, "histogram:listings-hist", null);
-                await loadHistogram(layer.id, "listings-hist", {
-                    attrId, nameMap: listingsNameMap,
-                    paintColors: layerPaintColors, mapStyledAttr: null
-                });
-            });
-            await loadHistogram(layer.id, "listings-hist", {
-                attrId: histDefault, nameMap: listingsNameMap,
-                paintColors: layerPaintColors, mapStyledAttr: null
-            });
-        }
-    }
-
-    async function activateZoning(layer) {
-        const schema = await felt.getLayerSchema(layer.id);
-        zoningNameMap = {};
-        schema.attributes.forEach(a => { zoningNameMap[a.id] = a.displayName; });
-
-        document.getElementById('zoning-meta').textContent = `${schema.featureCount.toLocaleString()} features`;
-
-        // Categorical Zoning layer — derive mapCatColorMap (Shape 2: { count, type } config → fetch via getLegendItems)
-        const mapStyledAttr = layer.style?.config?.categoricalAttribute || null;
-        const paintColors = normalizePaintColors(layer.style?.paint?.color);
-        const cfgCategories = layer.style?.config?.categories;
-        const mapCatColorMap = {};
-
-        if (mapStyledAttr && paintColors.length > 0) {
-            if (Array.isArray(cfgCategories)) {
-                cfgCategories.forEach((cat, i) => {
-                    if (paintColors[i]) mapCatColorMap[cat] = paintColors[i];
-                });
-            } else {
-                // Shape 2: fetch live category labels from legend
-                try {
-                    const items = await felt.getLegendItems({ layerIds: [layer.id] });
-                    items.forEach((item, i) => {
-                        if (item.label && paintColors[i]) {
-                            mapCatColorMap[item.label] = paintColors[i];
-                        }
-                    });
-                } catch (e) {
-                    console.warn("getLegendItems for zoning failed:", e);
-                }
-            }
-        }
-
-        // Single fixed bar-chart on the styled attribute (zoning_description)
-        if (mapStyledAttr) {
-            await loadBarChart(layer.id, "zoning-bar-chart", {
-                attrId: mapStyledAttr,
-                nameMap: zoningNameMap,
-                mapCatColorMap,
-                mapStyledAttr
-            });
-        }
-    }
-
-    init();
+    init().catch(err => {
+        console.error("SDK failed:", err);
+        document.getElementById("map").innerHTML =
+            `<p style="padding:40px;color:#6b7280;">Could not load. <a href="https://felt.com/map/jz9BmgQoPQ9BOXNVycYUxUjD" target="_blank">View on Felt</a></p>`;
+    });
 </script>
 </body>
 </html>
